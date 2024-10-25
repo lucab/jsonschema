@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.25.1] - 2024-10-25
+
 ### Changed
 
 - Schema representation inside `__repr__`.
@@ -546,7 +548,8 @@
 ## 0.1.0 - 2020-06-09
 - Initial public release
 
-[Unreleased]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.25.0...HEAD
+[Unreleased]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.25.1...HEAD
+[0.25.1]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.25.0...python-v0.25.1
 [0.25.0]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.24.3...python-v0.25.0
 [0.24.3]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.24.2...python-v0.24.3
 [0.24.2]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.24.1...python-v0.24.2
