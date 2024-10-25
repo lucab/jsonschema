@@ -1,6 +1,6 @@
 # jsonschema-rs
 
-[![Build](https://img.shields.io/github/actions/workflow/status/Stranger6667/jsonschema-rs/ci.yml?branch=master&style=flat-square)](https://github.com/Stranger6667/jsonschema-rs/actions)
+[![Build](https://img.shields.io/github/actions/workflow/status/Stranger6667/jsonschema/ci.yml?branch=master&style=flat-square)](https://github.com/Stranger6667/jsonschema/actions)
 [![Version](https://img.shields.io/pypi/v/jsonschema-rs.svg?style=flat-square)](https://pypi.org/project/jsonschema-rs/)
 [![Python versions](https://img.shields.io/pypi/pyversions/jsonschema-rs.svg?style=flat-square)](https://pypi.org/project/jsonschema-rs/)
 [![License](https://img.shields.io/pypi/l/jsonschema-rs.svg?style=flat-square)](https://opensource.org/licenses/MIT)
@@ -37,7 +37,7 @@ for error in validator.iter_errors(instance):
 assert validator.is_valid(instance)
 ```
 
-> ⚠️ **Upgrading from older versions?** Check our [Migration Guide](https://github.com/Stranger6667/jsonschema-rs/blob/master/crates/jsonschema-py/MIGRATION.md) for key changes.
+> ⚠️ **Upgrading from older versions?** Check our [Migration Guide](https://github.com/Stranger6667/jsonschema/blob/master/crates/jsonschema-py/MIGRATION.md) for key changes.
 
 ## Highlights
 
@@ -155,7 +155,7 @@ jsonschema_rs.Draft202012Validator(invalid_schema, ignore_unknown_formats=False)
 - Generally **2-5x** faster than `fastjsonschema` on CPython
 - Comparable or slightly slower performance for very small schemas
 
-For detailed benchmarks, see our [full performance comparison](https://github.com/Stranger6667/jsonschema-rs/blob/master/crates/jsonschema-py/BENCHMARKS.md).
+For detailed benchmarks, see our [full performance comparison](https://github.com/Stranger6667/jsonschema/blob/master/crates/jsonschema-py/BENCHMARKS.md).
 
 ## Python support
 
@@ -167,7 +167,7 @@ This library draws API design inspiration from the Python [`jsonschema`](https:/
 
 ## Support
 
-If you have questions, need help, or want to suggest improvements, please use [GitHub Discussions](https://github.com/Stranger6667/jsonschema-rs/discussions).
+If you have questions, need help, or want to suggest improvements, please use [GitHub Discussions](https://github.com/Stranger6667/jsonschema/discussions).
 
 ## Sponsorship
 
@@ -181,9 +181,9 @@ We welcome contributions! Here's how you can help:
 - Implement missing keywords
 - Fix failing test cases from the [JSON Schema test suite](https://bowtie.report/#/implementations/rust-jsonschema)
 
-See [CONTRIBUTING.md](https://github.com/Stranger6667/jsonschema-rs/blob/master/CONTRIBUTING.md) for more details.
+See [CONTRIBUTING.md](https://github.com/Stranger6667/jsonschema/blob/master/CONTRIBUTING.md) for more details.
 
 ## License
 
-Licensed under [MIT License](https://github.com/Stranger6667/jsonschema-rs/blob/master/LICENSE).
+Licensed under [MIT License](https://github.com/Stranger6667/jsonschema/blob/master/LICENSE).
 

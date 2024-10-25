@@ -10,7 +10,7 @@
 
 ### Fixed
 
-- Panic on initializing a validator. [#618](https://github.com/Stranger6667/jsonschema-rs/issues/618)
+- Panic on initializing a validator. [#618](https://github.com/Stranger6667/jsonschema/issues/618)
 
 ## [0.25.0] - 2024-10-24
 
@@ -35,7 +35,7 @@
 
 ### Fixed
 
-- Infinite recursion in some cases. [#146](https://github.com/Stranger6667/jsonschema-rs/issues/146)
+- Infinite recursion in some cases. [#146](https://github.com/Stranger6667/jsonschema/issues/146)
 - `$ref` interaction with `$recursiveAnchor` in Draft 2019-09.
 - `unevaluatedProperties` with `$recursiveRef` & `$dynamicRef`.
 
@@ -49,8 +49,8 @@
 
 ### Added
 
-- Support `$ref`, `$recursiveRef`, and `$dynamicRef` in `unevaluatedItems`. [#287](https://github.com/Stranger6667/jsonschema-rs/issues/287)
-- Support for `$vocabulary`. [#263](https://github.com/Stranger6667/jsonschema-rs/issues/263)
+- Support `$ref`, `$recursiveRef`, and `$dynamicRef` in `unevaluatedItems`. [#287](https://github.com/Stranger6667/jsonschema/issues/287)
+- Support for `$vocabulary`. [#263](https://github.com/Stranger6667/jsonschema/issues/263)
 
 ### Changed
 
@@ -75,7 +75,7 @@
 
 ### Fixed
 
-- Resolving file references on Windows. [#441](https://github.com/Stranger6667/jsonschema-rs/issues/441)
+- Resolving file references on Windows. [#441](https://github.com/Stranger6667/jsonschema/issues/441)
 
 ### Performance
 
@@ -108,21 +108,21 @@
 
 ### Changed
 
-- Extend email validation. [#471](https://github.com/Stranger6667/jsonschema-rs/issues/471)
+- Extend email validation. [#471](https://github.com/Stranger6667/jsonschema/issues/471)
 
 ### Fixed
 
 - `time` format validation (leap seconds and second fractions).
 - `duration` format validation.
-- Panic on root `$id` without base. [#547](https://github.com/Stranger6667/jsonschema-rs/issues/547)
+- Panic on root `$id` without base. [#547](https://github.com/Stranger6667/jsonschema/issues/547)
 - `hostname` format validation (double dot).
-- `idn-hostname` format validation. [#101](https://github.com/Stranger6667/jsonschema-rs/issues/101)
+- `idn-hostname` format validation. [#101](https://github.com/Stranger6667/jsonschema/issues/101)
 
 ### Performance
 
 - Faster building of a validator.
 - `hostname`, `date`, `time`, `date-time`, and `duration` formats validation.
-- Cache regular expressions for `pattern`. [#417](https://github.com/Stranger6667/jsonschema-rs/issues/417)
+- Cache regular expressions for `pattern`. [#417](https://github.com/Stranger6667/jsonschema/issues/417)
 
 ## [0.21.0] - 2024-09-30
 
@@ -134,13 +134,13 @@
 
 ### Changed
 
-- **BREAKING**: Treat `$ref` as URI, not URL, and additionally normalize them. [#454](https://github.com/Stranger6667/jsonschema-rs/issues/454)
+- **BREAKING**: Treat `$ref` as URI, not URL, and additionally normalize them. [#454](https://github.com/Stranger6667/jsonschema/issues/454)
 - **BREAKING**: Resolve all non-recursive references eagerly.
-- **BREAKING**: Disallow use of fragments in `$id`. [#264](https://github.com/Stranger6667/jsonschema-rs/issues/264)
+- **BREAKING**: Disallow use of fragments in `$id`. [#264](https://github.com/Stranger6667/jsonschema/issues/264)
 
 ### Fixed
 
-- Infinite recursion in `unevaluatedProperties`. [#420](https://github.com/Stranger6667/jsonschema-rs/issues/420)
+- Infinite recursion in `unevaluatedProperties`. [#420](https://github.com/Stranger6667/jsonschema/issues/420)
 - Cross-draft validation from newer to older ones.
 - Changing base URI in folder.
 - Location-independent identifier in remote resource.
@@ -176,14 +176,14 @@
 
 ### Fixed
 
-- `ipv4` format validation. [#512](https://github.com/Stranger6667/jsonschema-rs/issues/512)
+- `ipv4` format validation. [#512](https://github.com/Stranger6667/jsonschema/issues/512)
 
 ## [0.19.0] - 2024-09-14
 
 ### Fixed
 
 - `uuid` format validation.
-- Combination of `unevaluatedProperties` with `allOf` and `oneOf`. [#496](https://github.com/Stranger6667/jsonschema-rs/issues/496)
+- Combination of `unevaluatedProperties` with `allOf` and `oneOf`. [#496](https://github.com/Stranger6667/jsonschema/issues/496)
 
 ### Performance
 
@@ -220,7 +220,7 @@
 
 ### Added
 
-- Defining custom format checkers. [#245](https://github.com/Stranger6667/jsonschema-rs/issues/245)
+- Defining custom format checkers. [#245](https://github.com/Stranger6667/jsonschema/issues/245)
 
 ### Changed
 
@@ -228,19 +228,19 @@
 
 ### Fixed
 
-- Incorrect `schema_path` when multiple errors coming from the `$ref` keyword [#426](https://github.com/Stranger6667/jsonschema-rs/issues/426)
+- Incorrect `schema_path` when multiple errors coming from the `$ref` keyword [#426](https://github.com/Stranger6667/jsonschema/issues/426)
 
 ## [0.17.3] - 2024-03-22
 
 ### Added
 
-- Support subclasses of Python `dict`s [#427](https://github.com/Stranger6667/jsonschema-rs/issues/427)
+- Support subclasses of Python `dict`s [#427](https://github.com/Stranger6667/jsonschema/issues/427)
 
 ## [0.17.2] - 2024-03-03
 
 ### Added
 
-- Support for Python 3.12 [#439](https://github.com/Stranger6667/jsonschema-rs/issues/439)
+- Support for Python 3.12 [#439](https://github.com/Stranger6667/jsonschema/issues/439)
 
 ### Changed
 
@@ -252,7 +252,7 @@
 ### Changed
 
 - Update `pyo3` to `0.19`.
-- Improved error messages for `oneOf` / `anyOf` keywords. [#429](https://github.com/Stranger6667/jsonschema-rs/issues/429)
+- Improved error messages for `oneOf` / `anyOf` keywords. [#429](https://github.com/Stranger6667/jsonschema/issues/429)
 
 ## [0.16.3] - 2023-02-01
 
@@ -274,7 +274,7 @@
 
 ### Changed
 
-- Raise `ValueError` on validating dicts with non-string keys. [#386](https://github.com/Stranger6667/jsonschema-rs/issues/386)
+- Raise `ValueError` on validating dicts with non-string keys. [#386](https://github.com/Stranger6667/jsonschema/issues/386)
 - Update `pyo3` to `0.17`.
 
 ## [0.16.0] - 2022-05-12
@@ -286,7 +286,7 @@
 ### Fixed
 
 - Installation error due to `pyo3-built` incompatibility
-- Memory leak in `iter_errors`. [#325](https://github.com/Stranger6667/jsonschema-rs/issues/325)
+- Memory leak in `iter_errors`. [#325](https://github.com/Stranger6667/jsonschema/issues/325)
 
 ### Changed
 
@@ -300,7 +300,7 @@
 
 ### Added
 
-- Support for resolving external schema files. [#76](https://github.com/Stranger6667/jsonschema-rs/issues/76)
+- Support for resolving external schema files. [#76](https://github.com/Stranger6667/jsonschema/issues/76)
 
 ### Changed
 
@@ -332,22 +332,22 @@
 
 ### Added
 
-- `iter_errors` to iterate all errors. [#236](https://github.com/Stranger6667/jsonschema-rs/issues/236)
+- `iter_errors` to iterate all errors. [#236](https://github.com/Stranger6667/jsonschema/issues/236)
 
 ## [0.12.2] - 2021-10-21
 
 ### Fixed
 
-- Display the original value in errors from `minimum`, `maximum`, `exclusiveMinimum`, `exclusiveMaximum`. [#215](https://github.com/Stranger6667/jsonschema-rs/issues/215)
+- Display the original value in errors from `minimum`, `maximum`, `exclusiveMinimum`, `exclusiveMaximum`. [#215](https://github.com/Stranger6667/jsonschema/issues/215)
 - Switch from `chrono` to `time==0.3.3` due to [RUSTSEC-2020-0159](https://rustsec.org/advisories/RUSTSEC-2020-0159.html) in older `time` versions that `chrono` depends on.
 
 ## [0.12.1] - 2021-07-29
 
 ### Fixed
 
-- Allow using empty arrays or arrays with non-unique elements for the `enum` keyword in schemas. [#258](https://github.com/Stranger6667/jsonschema-rs/issues/258)
-- Inaccurate schema path in validation error messages. [#257](https://github.com/Stranger6667/jsonschema-rs/issues/257)
-- Panic on incomplete escape sequences in regex patterns. [#253](https://github.com/Stranger6667/jsonschema-rs/issues/253)
+- Allow using empty arrays or arrays with non-unique elements for the `enum` keyword in schemas. [#258](https://github.com/Stranger6667/jsonschema/issues/258)
+- Inaccurate schema path in validation error messages. [#257](https://github.com/Stranger6667/jsonschema/issues/257)
+- Panic on incomplete escape sequences in regex patterns. [#253](https://github.com/Stranger6667/jsonschema/issues/253)
 
 ## [0.12.0] - 2021-07-24
 
@@ -359,7 +359,7 @@
 
 ### Added
 
-- Additional attributes to `ValidationError`. They are `message`, `schema_path` and `instance_path`. [#197](https://github.com/Stranger6667/jsonschema-rs/issues/197)
+- Additional attributes to `ValidationError`. They are `message`, `schema_path` and `instance_path`. [#197](https://github.com/Stranger6667/jsonschema/issues/197)
 
 ### Changed
 
@@ -369,25 +369,25 @@
 
 ### Added
 
-- Report schema paths in validation errors. At the moment, it only displayed in the `ValidationError` message. [#199](https://github.com/Stranger6667/jsonschema-rs/issues/199)
+- Report schema paths in validation errors. At the moment, it only displayed in the `ValidationError` message. [#199](https://github.com/Stranger6667/jsonschema/issues/199)
 
 ## [0.10.0] - 2021-06-17
 
 ### Added
 
-- Meta-schema validation for input schemas. [#198](https://github.com/Stranger6667/jsonschema-rs/issues/198)
+- Meta-schema validation for input schemas. [#198](https://github.com/Stranger6667/jsonschema/issues/198)
 
 ## [0.9.1] - 2021-06-17
 
 ### Fixed
 
-- The `format` validator incorrectly rejecting supported regex patterns. [#230](https://github.com/Stranger6667/jsonschema-rs/issues/230)
+- The `format` validator incorrectly rejecting supported regex patterns. [#230](https://github.com/Stranger6667/jsonschema/issues/230)
 
 ## [0.9.0] - 2021-05-07
 
 ### Added
 
-- Support for look-around patterns. [#183](https://github.com/Stranger6667/jsonschema-rs/issues/183)
+- Support for look-around patterns. [#183](https://github.com/Stranger6667/jsonschema/issues/183)
 
 ### Fixed
 
@@ -397,12 +397,12 @@
 
 ### Changed
 
-- Error messages show paths to the erroneous part of the input instance. [#144](https://github.com/Stranger6667/jsonschema-rs/issues/144)
+- Error messages show paths to the erroneous part of the input instance. [#144](https://github.com/Stranger6667/jsonschema/issues/144)
 
 ### Fixed
 
-- Skipped validation on an unsupported regular expression in `patternProperties`. [#213](https://github.com/Stranger6667/jsonschema-rs/issues/213)
-- Missing `array` type in error messages for `type` validators containing multiple values. [#216](https://github.com/Stranger6667/jsonschema-rs/issues/216)
+- Skipped validation on an unsupported regular expression in `patternProperties`. [#213](https://github.com/Stranger6667/jsonschema/issues/213)
+- Missing `array` type in error messages for `type` validators containing multiple values. [#216](https://github.com/Stranger6667/jsonschema/issues/216)
 
 ## [0.6.2] - 2021-05-03
 
@@ -424,7 +424,7 @@
 
 ### Fixed
 
-- Incorrect handling of `\w` and `\W` character groups in `pattern` keywords. [#180](https://github.com/Stranger6667/jsonschema-rs/issues/180)
+- Incorrect handling of `\w` and `\W` character groups in `pattern` keywords. [#180](https://github.com/Stranger6667/jsonschema/issues/180)
 - Incorrect handling of strings that contain escaped character groups (like `\\w`) in `pattern` keywords.
 
 ## [0.6.0] - 2021-02-03
@@ -449,19 +449,19 @@
 
 ### Added
 
-- Cache for documents loaded via the `$ref` keyword. [#75](https://github.com/Stranger6667/jsonschema-rs/issues/75)
-- Meta schemas for JSON Schema drafts 4, 6, and 7. [#28](https://github.com/Stranger6667/jsonschema-rs/issues/28)
+- Cache for documents loaded via the `$ref` keyword. [#75](https://github.com/Stranger6667/jsonschema/issues/75)
+- Meta schemas for JSON Schema drafts 4, 6, and 7. [#28](https://github.com/Stranger6667/jsonschema/issues/28)
 
 ### Fixed
 
-- Not necessary network requests for schemas with `$id` values with trailing `#` symbol. [#163](https://github.com/Stranger6667/jsonschema-rs/issues/163)
+- Not necessary network requests for schemas with `$id` values with trailing `#` symbol. [#163](https://github.com/Stranger6667/jsonschema/issues/163)
 - Source code distribution. It was missing the source code for the underlying Rust crate and were leading to
   a build error during `pip install jsonschema_rs` on platforms that we don't have wheels for.
-  [#159](https://github.com/Stranger6667/jsonschema-rs/issues/159)
+  [#159](https://github.com/Stranger6667/jsonschema/issues/159)
 
 ### Performance
 
-- Enum validation for input values that have a type that is not present among the enum variants. [#80](https://github.com/Stranger6667/jsonschema-rs/issues/80)
+- Enum validation for input values that have a type that is not present among the enum variants. [#80](https://github.com/Stranger6667/jsonschema/issues/80)
 
 ## [0.4.3] - 2020-12-15
 
@@ -473,14 +473,14 @@
 
 ### Fixed
 
-- Number comparison for `enum` and `const` keywords. [#149](https://github.com/Stranger6667/jsonschema-rs/issues/149)
-- Do not accept `date` strings with single-digit month and day values. [#151](https://github.com/Stranger6667/jsonschema-rs/issues/151)
+- Number comparison for `enum` and `const` keywords. [#149](https://github.com/Stranger6667/jsonschema/issues/149)
+- Do not accept `date` strings with single-digit month and day values. [#151](https://github.com/Stranger6667/jsonschema/issues/151)
 
 ## [0.4.1] - 2020-12-09
 
 ### Fixed
 
-- Integers not recognized as numbers when the `type` keyword is a list of multiple values. [#147](https://github.com/Stranger6667/jsonschema-rs/issues/147)
+- Integers not recognized as numbers when the `type` keyword is a list of multiple values. [#147](https://github.com/Stranger6667/jsonschema/issues/147)
 
 ## [0.4.0] - 2020-11-09
 
@@ -490,8 +490,8 @@
 
 ### Changed
 
-- Remove not needed `__init__.py` file. It improves performance for compiled schemas. [#121](https://github.com/Stranger6667/jsonschema-rs/issues/121)
-- Update `PyO3` to `0.12`. [#125](https://github.com/Stranger6667/jsonschema-rs/issues/125)
+- Remove not needed `__init__.py` file. It improves performance for compiled schemas. [#121](https://github.com/Stranger6667/jsonschema/issues/121)
+- Update `PyO3` to `0.12`. [#125](https://github.com/Stranger6667/jsonschema/issues/125)
 - Use stable Rust.
 - Set module documentation only once.
 
@@ -499,7 +499,7 @@
 
 - ECMAScript regex support
 - Formats should be associated to Draft versions (ie. `idn-hostname` is not defined on draft 4 and draft 6)
-- Handle errors during conversion to `Value` instead of using `unwrap` in `JSONSchema::is_valid` and `JSONSchema::validate`. [#127](https://github.com/Stranger6667/jsonschema-rs/issues/127)
+- Handle errors during conversion to `Value` instead of using `unwrap` in `JSONSchema::is_valid` and `JSONSchema::validate`. [#127](https://github.com/Stranger6667/jsonschema/issues/127)
 
 ### Removed
 
@@ -509,7 +509,7 @@
 
 ### Fixed
 
-- `items` allows the presence of boolean schemas. [#115](https://github.com/Stranger6667/jsonschema-rs/pull/115)
+- `items` allows the presence of boolean schemas. [#115](https://github.com/Stranger6667/jsonschema/pull/115)
 
 ## [0.3.2] - 2020-06-13
 
@@ -521,82 +521,82 @@
 
 ### Added
 
-- Added `jsonschema_rs.__build__` which contains useful build information. [#111](https://github.com/Stranger6667/jsonschema-rs/pulls/111)
-- Wheels for Mac OS and Windows. [#110](https://github.com/Stranger6667/jsonschema-rs/issues/110)
+- Added `jsonschema_rs.__build__` which contains useful build information. [#111](https://github.com/Stranger6667/jsonschema/pulls/111)
+- Wheels for Mac OS and Windows. [#110](https://github.com/Stranger6667/jsonschema/issues/110)
 
 ### Changed
 
-- Linux wheels are `manylinux2014` compatible. Previously they were `manylinux2010` compatible. [#111](https://github.com/Stranger6667/jsonschema-rs/pulls/111)
+- Linux wheels are `manylinux2014` compatible. Previously they were `manylinux2010` compatible. [#111](https://github.com/Stranger6667/jsonschema/pulls/111)
 
 ## [0.3.0] - 2020-06-11
 
 ### Fixed
 
-- Copying not needed compiled files to the wheel distribution files. [#109](https://github.com/Stranger6667/jsonschema-rs/issues/109)
+- Copying not needed compiled files to the wheel distribution files. [#109](https://github.com/Stranger6667/jsonschema/issues/109)
 
 ## [0.2.0] - 2020-06-11
 
 ### Added
 
-- `JSONSchema.validate` method that raises `ValidationError` for invalid input. [#105](https://github.com/Stranger6667/jsonschema-rs/issues/105)
+- `JSONSchema.validate` method that raises `ValidationError` for invalid input. [#105](https://github.com/Stranger6667/jsonschema/issues/105)
 
 ### Changed
 
-- Public functions docstrings to support PyCharm skeletons generation. Functions signatures now have proper signatures (but untyped) in PyCharm. [#107](https://github.com/Stranger6667/jsonschema-rs/issues/107)
-- Enable Link-Time Optimizations and set `codegen-units` to 1. [#104](https://github.com/Stranger6667/jsonschema-rs/issues/104)
+- Public functions docstrings to support PyCharm skeletons generation. Functions signatures now have proper signatures (but untyped) in PyCharm. [#107](https://github.com/Stranger6667/jsonschema/issues/107)
+- Enable Link-Time Optimizations and set `codegen-units` to 1. [#104](https://github.com/Stranger6667/jsonschema/issues/104)
 
 ## 0.1.0 - 2020-06-09
 - Initial public release
 
-[Unreleased]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.25.1...HEAD
-[0.25.1]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.25.0...python-v0.25.1
-[0.25.0]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.24.3...python-v0.25.0
-[0.24.3]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.24.2...python-v0.24.3
-[0.24.2]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.24.1...python-v0.24.2
-[0.24.1]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.24.0...python-v0.24.1
-[0.24.0]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.23.0...python-v0.24.0
-[0.23.0]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.22.3...python-v0.23.0
-[0.22.3]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.22.2...python-v0.22.3
-[0.22.2]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.22.1...python-v0.22.2
-[0.22.1]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.22.0...python-v0.22.1
-[0.22.0]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.21.0...python-v0.22.0
-[0.21.0]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.20.0...python-v0.21.0
-[0.20.0]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.19.1...python-v0.20.0
-[0.19.1]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.19.0...python-v0.19.1
-[0.19.0]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.18.3...python-v0.19.0
-[0.18.3]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.18.2...python-v0.18.3
-[0.18.2]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.18.1...python-v0.18.2
-[0.18.1]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.18.0...python-v0.18.1
-[0.18.0]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.17.3...python-v0.18.0
-[0.17.3]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.17.2...python-v0.17.3
-[0.17.2]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.17.1...python-v0.17.2
-[0.17.1]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.16.3...python-v0.17.1
-[0.16.3]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.16.2...python-v0.16.3
-[0.16.2]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.16.1...python-v0.16.2
-[0.16.1]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.16.0...python-v0.16.1
-[0.16.0]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.14.0...python-v0.16.0
-[0.14.0]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.13.1...python-v0.14.0
-[0.13.1]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.13.0...python-v0.13.1
-[0.13.0]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.12.1...python-v0.13.0
-[0.12.1]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.12.0...python-v0.12.1
-[0.12.0]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.11.1...python-v0.12.0
-[0.11.1]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.11.0...python-v0.11.1
-[0.11.0]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.10.0...python-v0.11.0
-[0.10.0]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.9.1...python-v0.10.0
-[0.9.1]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.9.0...python-v0.9.1
-[0.9.0]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.8.0...python-v0.9.0
-[0.8.0]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.6.2...python-v0.8.0
-[0.6.2]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.6.1...python-v0.6.2
-[0.6.1]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.6.0...python-v0.6.1
-[0.6.0]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.5.1...python-v0.6.0
-[0.5.1]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.5.0...python-v0.5.1
-[0.5.0]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.4.3...python-v0.5.0
-[0.4.3]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.4.2...python-v0.4.3
-[0.4.2]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.4.1...python-v0.4.2
-[0.4.1]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.4.0...python-v0.4.1
-[0.4.0]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.3.3...python-v0.4.0
-[0.3.3]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.3.2...python-v0.3.3
-[0.3.2]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.3.1...python-v0.3.2
-[0.3.1]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.3.0...python-v0.3.1
-[0.3.0]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.2.0...python-v0.3.0
-[0.2.0]: https://github.com/Stranger6667/jsonschema-rs/compare/python-v0.1.0...python-v0.2.0
+[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/python-v0.25.1...HEAD
+[0.25.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.25.0...python-v0.25.1
+[0.25.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.24.3...python-v0.25.0
+[0.24.3]: https://github.com/Stranger6667/jsonschema/compare/python-v0.24.2...python-v0.24.3
+[0.24.2]: https://github.com/Stranger6667/jsonschema/compare/python-v0.24.1...python-v0.24.2
+[0.24.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.24.0...python-v0.24.1
+[0.24.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.23.0...python-v0.24.0
+[0.23.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.22.3...python-v0.23.0
+[0.22.3]: https://github.com/Stranger6667/jsonschema/compare/python-v0.22.2...python-v0.22.3
+[0.22.2]: https://github.com/Stranger6667/jsonschema/compare/python-v0.22.1...python-v0.22.2
+[0.22.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.22.0...python-v0.22.1
+[0.22.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.21.0...python-v0.22.0
+[0.21.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.20.0...python-v0.21.0
+[0.20.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.19.1...python-v0.20.0
+[0.19.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.19.0...python-v0.19.1
+[0.19.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.18.3...python-v0.19.0
+[0.18.3]: https://github.com/Stranger6667/jsonschema/compare/python-v0.18.2...python-v0.18.3
+[0.18.2]: https://github.com/Stranger6667/jsonschema/compare/python-v0.18.1...python-v0.18.2
+[0.18.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.18.0...python-v0.18.1
+[0.18.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.17.3...python-v0.18.0
+[0.17.3]: https://github.com/Stranger6667/jsonschema/compare/python-v0.17.2...python-v0.17.3
+[0.17.2]: https://github.com/Stranger6667/jsonschema/compare/python-v0.17.1...python-v0.17.2
+[0.17.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.16.3...python-v0.17.1
+[0.16.3]: https://github.com/Stranger6667/jsonschema/compare/python-v0.16.2...python-v0.16.3
+[0.16.2]: https://github.com/Stranger6667/jsonschema/compare/python-v0.16.1...python-v0.16.2
+[0.16.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.16.0...python-v0.16.1
+[0.16.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.14.0...python-v0.16.0
+[0.14.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.13.1...python-v0.14.0
+[0.13.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.13.0...python-v0.13.1
+[0.13.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.12.1...python-v0.13.0
+[0.12.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.12.0...python-v0.12.1
+[0.12.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.11.1...python-v0.12.0
+[0.11.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.11.0...python-v0.11.1
+[0.11.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.10.0...python-v0.11.0
+[0.10.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.9.1...python-v0.10.0
+[0.9.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.9.0...python-v0.9.1
+[0.9.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.8.0...python-v0.9.0
+[0.8.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.6.2...python-v0.8.0
+[0.6.2]: https://github.com/Stranger6667/jsonschema/compare/python-v0.6.1...python-v0.6.2
+[0.6.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.6.0...python-v0.6.1
+[0.6.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.5.1...python-v0.6.0
+[0.5.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.5.0...python-v0.5.1
+[0.5.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.4.3...python-v0.5.0
+[0.4.3]: https://github.com/Stranger6667/jsonschema/compare/python-v0.4.2...python-v0.4.3
+[0.4.2]: https://github.com/Stranger6667/jsonschema/compare/python-v0.4.1...python-v0.4.2
+[0.4.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.4.0...python-v0.4.1
+[0.4.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.3.3...python-v0.4.0
+[0.3.3]: https://github.com/Stranger6667/jsonschema/compare/python-v0.3.2...python-v0.3.3
+[0.3.2]: https://github.com/Stranger6667/jsonschema/compare/python-v0.3.1...python-v0.3.2
+[0.3.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.3.0...python-v0.3.1
+[0.3.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.2.0...python-v0.3.0
+[0.2.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.1.0...python-v0.2.0

@@ -46,10 +46,10 @@ bench = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Stranger6667/jsonschema-rs/tree/master/crates/jsonschema-py"
-Changelog = "https://github.com/Stranger6667/jsonschema-rs/blob/master/crates/jsonschema-py/CHANGELOG.md"
-"Bug Tracker" = "https://github.com/Stranger6667/jsonschema-rs/issues"
-Source = "https://github.com/Stranger6667/jsonschema-rs"
+Homepage = "https://github.com/Stranger6667/jsonschema/tree/master/crates/jsonschema-py"
+Changelog = "https://github.com/Stranger6667/jsonschema/blob/master/crates/jsonschema-py/CHANGELOG.md"
+"Bug Tracker" = "https://github.com/Stranger6667/jsonschema/issues"
+Source = "https://github.com/Stranger6667/jsonschema"
 Funding = 'https://github.com/sponsors/Stranger6667'
 
 [tool.maturin]

@@ -6,7 +6,7 @@
 
 ### Fixed
 
-- Re-export `referencing::Error` as `ReferencingError`. [#614](https://github.com/Stranger6667/jsonschema-rs/issues/614)
+- Re-export `referencing::Error` as `ReferencingError`. [#614](https://github.com/Stranger6667/jsonschema/issues/614)
 
 ## [0.25.0] - 2024-10-24
 
@@ -33,7 +33,7 @@
 
 ### Fixed
 
-- Infinite recursion in some cases. [#146](https://github.com/Stranger6667/jsonschema-rs/issues/146)
+- Infinite recursion in some cases. [#146](https://github.com/Stranger6667/jsonschema/issues/146)
 - `$ref` interaction with `$recursiveAnchor` in Draft 2019-09.
 - `unevaluatedProperties` with `$recursiveRef` & `$dynamicRef`.
 
@@ -47,8 +47,8 @@
 
 ### Added
 
-- Support `$ref`, `$recursiveRef`, and `$dynamicRef` in `unevaluatedItems`. [#287](https://github.com/Stranger6667/jsonschema-rs/issues/287)
-- Support for `$vocabulary`. [#263](https://github.com/Stranger6667/jsonschema-rs/issues/263)
+- Support `$ref`, `$recursiveRef`, and `$dynamicRef` in `unevaluatedItems`. [#287](https://github.com/Stranger6667/jsonschema/issues/287)
+- Support for `$vocabulary`. [#263](https://github.com/Stranger6667/jsonschema/issues/263)
 
 ### Changed
 
@@ -70,7 +70,7 @@
 
 ### Changed
 
-- Improve error messages on WASM. [#568](https://github.com/Stranger6667/jsonschema-rs/issues/568)
+- Improve error messages on WASM. [#568](https://github.com/Stranger6667/jsonschema/issues/568)
 - Improve error messages on URI resolving and parsing.
 - **BREAKING**: Replace `JsonPointer` in favor of `Location`.
 
@@ -81,8 +81,8 @@
 
 ### Fixed
 
-- Resolving file references on Windows. [#441](https://github.com/Stranger6667/jsonschema-rs/issues/441)
-- Missing annotations from by-reference applicators. [#403](https://github.com/Stranger6667/jsonschema-rs/issues/403)
+- Resolving file references on Windows. [#441](https://github.com/Stranger6667/jsonschema/issues/441)
+- Missing annotations from by-reference applicators. [#403](https://github.com/Stranger6667/jsonschema/issues/403)
 - Relative keyword locations missing by-reference applicators (such as `$ref` or `$dynamicRef`).
 
 ### Performance
@@ -121,7 +121,7 @@
 
 ### Changed
 
-- Extend email validation. [#471](https://github.com/Stranger6667/jsonschema-rs/issues/471)
+- Extend email validation. [#471](https://github.com/Stranger6667/jsonschema/issues/471)
 - **BREAKING**: Custom retrievers now receive `&Uri<&str>` instead of `&UriRef<&str>`
 - Bump `once_cell` to `1.20`.
 - Bump `regex` to `1.11`.
@@ -130,15 +130,15 @@
 
 - `time` format validation (leap seconds and second fractions).
 - `duration` format validation.
-- Panic on root `$id` without base. [#547](https://github.com/Stranger6667/jsonschema-rs/issues/547)
+- Panic on root `$id` without base. [#547](https://github.com/Stranger6667/jsonschema/issues/547)
 - `hostname` format validation (double dot).
-- `idn-hostname` format validation. [#101](https://github.com/Stranger6667/jsonschema-rs/issues/101)
+- `idn-hostname` format validation. [#101](https://github.com/Stranger6667/jsonschema/issues/101)
 
 ### Performance
 
 - Faster building of a validator.
 - Speedup `hostname`, `date`, `time`, `date-time`, and `duration` formats validation.
-- Cache regular expressions for `pattern`. [#417](https://github.com/Stranger6667/jsonschema-rs/issues/417)
+- Cache regular expressions for `pattern`. [#417](https://github.com/Stranger6667/jsonschema/issues/417)
 
 ## [0.21.0] - 2024-09-29
 
@@ -153,9 +153,9 @@ While backward compatibility is maintained for now, users are encouraged to upda
 
 ### Changed
 
-- **BREAKING**: Treat `$ref` as URI, not URL, and additionally normalize them. [#454](https://github.com/Stranger6667/jsonschema-rs/issues/454)
+- **BREAKING**: Treat `$ref` as URI, not URL, and additionally normalize them. [#454](https://github.com/Stranger6667/jsonschema/issues/454)
 - **BREAKING**: Resolve all non-recursive references eagerly.
-- **BREAKING**: Disallow use of fragments in `$id`. [#264](https://github.com/Stranger6667/jsonschema-rs/issues/264)
+- **BREAKING**: Disallow use of fragments in `$id`. [#264](https://github.com/Stranger6667/jsonschema/issues/264)
 
 ### Deprecated
 
@@ -165,7 +165,7 @@ While backward compatibility is maintained for now, users are encouraged to upda
 
 ### Fixed
 
-- Infinite recursion in `unevaluatedProperties`. [#420](https://github.com/Stranger6667/jsonschema-rs/issues/420)
+- Infinite recursion in `unevaluatedProperties`. [#420](https://github.com/Stranger6667/jsonschema/issues/420)
 - Cross-draft validation from newer to older ones.
 - Changing base URI in folder.
 - Location-independent identifier in remote resource.
@@ -200,8 +200,8 @@ While backward compatibility is maintained for now, users are encouraged to upda
 ### Deprecated
 
 - Rename `CompilationOptions` to `ValidationOptions` for clarity.
-- Rename `JSONSchema` to `Validator` for clarity. [#424](https://github.com/Stranger6667/jsonschema-rs/issues/424)
-- Rename `JSONPointer` to `JsonPointer` for consistency with naming conventions. [#424](https://github.com/Stranger6667/jsonschema-rs/issues/424)
+- Rename `JSONSchema` to `Validator` for clarity. [#424](https://github.com/Stranger6667/jsonschema/issues/424)
+- Rename `JSONPointer` to `JsonPointer` for consistency with naming conventions. [#424](https://github.com/Stranger6667/jsonschema/issues/424)
 - Rename `jsonschema::compile` to `jsonschema::validator_for`.
 - Rename `CompilationOptions::compile` to `ValidationOptions::build`.
 
@@ -215,7 +215,7 @@ Old names are retained for backward compatibility but will be removed in a futur
 
 ### Fixed
 
-- `ipv4` format validation. [#512](https://github.com/Stranger6667/jsonschema-rs/issues/512)
+- `ipv4` format validation. [#512](https://github.com/Stranger6667/jsonschema/issues/512)
 
 ## [0.19.0] - 2024-09-14
 
@@ -230,7 +230,7 @@ Old names are retained for backward compatibility but will be removed in a futur
 ### Fixed
 
 - `uuid` format validation.
-- Combination of `unevaluatedProperties` with `allOf` and `oneOf`. [#496](https://github.com/Stranger6667/jsonschema-rs/issues/496)
+- Combination of `unevaluatedProperties` with `allOf` and `oneOf`. [#496](https://github.com/Stranger6667/jsonschema/issues/496)
 
 ### Deprecated
 
@@ -269,7 +269,7 @@ Old names are retained for backward compatibility but will be removed in a futur
 
 ### Added
 
-- Custom keywords support. [#379](https://github.com/Stranger6667/jsonschema-rs/issues/379)
+- Custom keywords support. [#379](https://github.com/Stranger6667/jsonschema/issues/379)
 - Expose `JsonPointerNode` that can be converted into `JSONPointer`.
   This is needed for the upcoming custom validators support.
 
@@ -290,7 +290,7 @@ Old names are retained for backward compatibility but will be removed in a futur
 
 ### Fixed
 
-- Incorrect `schema_path` when multiple errors coming from the `$ref` keyword [#426](https://github.com/Stranger6667/jsonschema-rs/issues/426)
+- Incorrect `schema_path` when multiple errors coming from the `$ref` keyword [#426](https://github.com/Stranger6667/jsonschema/issues/426)
 
 ### Performance
 
@@ -301,11 +301,11 @@ Old names are retained for backward compatibility but will be removed in a futur
 
 ### Changed
 
-- Improved error messages for `oneOf` / `anyOf` keywords. [#429](https://github.com/Stranger6667/jsonschema-rs/issues/429)
+- Improved error messages for `oneOf` / `anyOf` keywords. [#429](https://github.com/Stranger6667/jsonschema/issues/429)
 
 ### Fixed
 
-- Improper handling of subschema validation in `unevaluatedProperties`. [#421](https://github.com/Stranger6667/jsonschema-rs/issues/421)
+- Improper handling of subschema validation in `unevaluatedProperties`. [#421](https://github.com/Stranger6667/jsonschema/issues/421)
 
 ## [0.17.0] - 2023-03-16
 
@@ -316,9 +316,9 @@ Old names are retained for backward compatibility but will be removed in a futur
 - Bump `fraction` to `0.13`.
 - Bump `iso8601` to `0.6`.
 - Replace `lazy_static` with `once_cell`.
-- Add support for `unevaluatedProperties`. (gated by the `draft201909`/`draft202012` feature flags). [#288](https://github.com/Stranger6667/jsonschema-rs/issues/288)
+- Add support for `unevaluatedProperties`. (gated by the `draft201909`/`draft202012` feature flags). [#288](https://github.com/Stranger6667/jsonschema/issues/288)
 - When using the draft 2019-09 or draft 2020-12 specification, `$ref` is now evaluated alongside
-  other keywords. [#378](https://github.com/Stranger6667/jsonschema-rs/issues/378)
+  other keywords. [#378](https://github.com/Stranger6667/jsonschema/issues/378)
 
 ## [0.16.1] - 2022-10-20
 
@@ -330,35 +330,35 @@ Old names are retained for backward compatibility but will be removed in a futur
 
 ### Fixed
 
-- Library compilation with no default features. [#356](https://github.com/Stranger6667/jsonschema-rs/issues/356)
-- Compilation with `resolve-file` only. [#358](https://github.com/Stranger6667/jsonschema-rs/issues/358)
+- Library compilation with no default features. [#356](https://github.com/Stranger6667/jsonschema/issues/356)
+- Compilation with `resolve-file` only. [#358](https://github.com/Stranger6667/jsonschema/issues/358)
 
 ### Changed
 
-- **BREAKING**: Revert changes from [#353](https://github.com/Stranger6667/jsonschema-rs/issues/353) and [#343](https://github.com/Stranger6667/jsonschema-rs/issues/343), as they caused compilation issues.
+- **BREAKING**: Revert changes from [#353](https://github.com/Stranger6667/jsonschema/issues/353) and [#343](https://github.com/Stranger6667/jsonschema/issues/343), as they caused compilation issues.
 
 ## [0.15.2] - 2022-04-10
 
 ### Fixed
 
-- Allow HTTP(S) schema resolving with `rustls`. [#353](https://github.com/Stranger6667/jsonschema-rs/issues/353)
+- Allow HTTP(S) schema resolving with `rustls`. [#353](https://github.com/Stranger6667/jsonschema/issues/353)
 
 ## [0.15.1] - 2022-04-02
 
 ### Fixed
 
-- Enable `reqwest/native-tls` by default to avoid validation errors caused by `reqwest` missing a TLS backend. [#343](https://github.com/Stranger6667/jsonschema-rs/issues/343)
+- Enable `reqwest/native-tls` by default to avoid validation errors caused by `reqwest` missing a TLS backend. [#343](https://github.com/Stranger6667/jsonschema/issues/343)
 
 ## [0.15.0] - 2022-01-31
 
 ### Added
 
-- The `SchemaResolver` trait to support resolving external schema references. [#246](https://github.com/Stranger6667/jsonschema-rs/issues/246)
-- `resolve-file` feature to resolve external schema files via `std::fs`. [#76](https://github.com/Stranger6667/jsonschema-rs/issues/76)
+- The `SchemaResolver` trait to support resolving external schema references. [#246](https://github.com/Stranger6667/jsonschema/issues/246)
+- `resolve-file` feature to resolve external schema files via `std::fs`. [#76](https://github.com/Stranger6667/jsonschema/issues/76)
 
 ### Changed
 
-- The `reqwest` feature was changed to `resolve-http`. [#341](https://github.com/Stranger6667/jsonschema-rs/pull/341)
+- The `reqwest` feature was changed to `resolve-http`. [#341](https://github.com/Stranger6667/jsonschema/pull/341)
 
 ### Performance
 
@@ -368,7 +368,7 @@ Old names are retained for backward compatibility but will be removed in a futur
 
 ### Changed
 
-- Bump `itoa` to `1.0`. [#337](https://github.com/Stranger6667/jsonschema-rs/issues/337)
+- Bump `itoa` to `1.0`. [#337](https://github.com/Stranger6667/jsonschema/issues/337)
 
 ### Performance
 
@@ -389,7 +389,7 @@ Old names are retained for backward compatibility but will be removed in a futur
 ### Fixed
 
 - False positives in some cases when calling `JSONSchema.apply` on schemas with `additionalProperties`, `patternProperties`, and `properties` combined.
-- False negatives in some cases when calling `JSONSchema.apply` on schemas with `if` and `then` (without `else`) keywords. [#318](https://github.com/Stranger6667/jsonschema-rs/pull/318)
+- False negatives in some cases when calling `JSONSchema.apply` on schemas with `if` and `then` (without `else`) keywords. [#318](https://github.com/Stranger6667/jsonschema/pull/318)
 - Panic in `JSONSchema.apply` on some schemas with `prefixItems` and `items`. It panicked if `items` is an object and the length of `prefixItems` is greater than the length of the input array.
 
 ### Performance
@@ -403,7 +403,7 @@ Old names are retained for backward compatibility but will be removed in a futur
 
 ### Added
 
-- Support for `prefixItems` keyword. [#303](https://github.com/Stranger6667/jsonschema-rs/pull/303)
+- Support for `prefixItems` keyword. [#303](https://github.com/Stranger6667/jsonschema/pull/303)
 - Expose methods to examine `OutputUnit`.
 
 ## [0.13.1] - 2021-10-28
@@ -416,12 +416,12 @@ Old names are retained for backward compatibility but will be removed in a futur
 
 ### Added
 
-- `uuid` format validator. [#266](https://github.com/Stranger6667/jsonschema-rs/issues/266)
-- `duration` format validator. [#265](https://github.com/Stranger6667/jsonschema-rs/issues/265)
-- Collect annotations whilst evaluating schemas. [#262](https://github.com/Stranger6667/jsonschema-rs/issues/262)
-- Option to turn off processing of the `format` keyword. [#261](https://github.com/Stranger6667/jsonschema-rs/issues/261)
-- `basic` & `flag` output formatting styles. [#100](https://github.com/Stranger6667/jsonschema-rs/issues/100)
-- Support for `dependentRequired` & `dependentSchemas` keywords. [#286](https://github.com/Stranger6667/jsonschema-rs/issues/286)
+- `uuid` format validator. [#266](https://github.com/Stranger6667/jsonschema/issues/266)
+- `duration` format validator. [#265](https://github.com/Stranger6667/jsonschema/issues/265)
+- Collect annotations whilst evaluating schemas. [#262](https://github.com/Stranger6667/jsonschema/issues/262)
+- Option to turn off processing of the `format` keyword. [#261](https://github.com/Stranger6667/jsonschema/issues/261)
+- `basic` & `flag` output formatting styles. [#100](https://github.com/Stranger6667/jsonschema/issues/100)
+- Support for `dependentRequired` & `dependentSchemas` keywords. [#286](https://github.com/Stranger6667/jsonschema/issues/286)
 - Forward `reqwest` features.
 
 ### Changed
@@ -433,50 +433,50 @@ Old names are retained for backward compatibility but will be removed in a futur
 
 ### Performance
 
-- Reduce the size of `PrimitiveTypesBitMapIterator` from 3 to 2 bytes. [#282](https://github.com/Stranger6667/jsonschema-rs/issues/282)
+- Reduce the size of `PrimitiveTypesBitMapIterator` from 3 to 2 bytes. [#282](https://github.com/Stranger6667/jsonschema/issues/282)
 - Use the `bytecount` crate for `maxLength` & `minLength` keywords, and for the `hostname` format.
 
 ## [0.12.2] - 2021-10-21
 
 ### Fixed
 
-- Display the original value in errors from `minimum`, `maximum`, `exclusiveMinimum`, `exclusiveMaximum`. [#215](https://github.com/Stranger6667/jsonschema-rs/issues/215)
+- Display the original value in errors from `minimum`, `maximum`, `exclusiveMinimum`, `exclusiveMaximum`. [#215](https://github.com/Stranger6667/jsonschema/issues/215)
 - Switch from `chrono` to `time==0.3.3` due to [RUSTSEC-2020-0159](https://rustsec.org/advisories/RUSTSEC-2020-0159.html) in older `time` versions that `chrono` depends on.
 
 ## [0.12.1] - 2021-07-29
 
 ### Fixed
 
-- Allow using empty arrays or arrays with non-unique elements for the `enum` keyword in schemas. [#258](https://github.com/Stranger6667/jsonschema-rs/issues/258)
-- Panic on incomplete escape sequences in regex patterns. [#253](https://github.com/Stranger6667/jsonschema-rs/issues/253)
+- Allow using empty arrays or arrays with non-unique elements for the `enum` keyword in schemas. [#258](https://github.com/Stranger6667/jsonschema/issues/258)
+- Panic on incomplete escape sequences in regex patterns. [#253](https://github.com/Stranger6667/jsonschema/issues/253)
 
 ## [0.12.0] - 2021-07-24
 
 ### Added
 
-- Support for custom `format` validators. [#158](https://github.com/Stranger6667/jsonschema-rs/issues/158)
+- Support for custom `format` validators. [#158](https://github.com/Stranger6667/jsonschema/issues/158)
 
 ### Changed
 
 - Validators now implement `Display` instead of `ToString`.
-- `JSONSchema` now owns its data. [#145](https://github.com/Stranger6667/jsonschema-rs/issues/145)
+- `JSONSchema` now owns its data. [#145](https://github.com/Stranger6667/jsonschema/issues/145)
 
 ## [0.11.0] - 2021-06-19
 
 ### Added
 
-- Report schema paths in validation errors - `ValidationError.schema_path`. [#199](https://github.com/Stranger6667/jsonschema-rs/issues/199)
+- Report schema paths in validation errors - `ValidationError.schema_path`. [#199](https://github.com/Stranger6667/jsonschema/issues/199)
 
 ### Fixed
 
-- Incorrect encoding of `/` and `~` characters in `fmt::Display` implementation for `JSONPointer`. [#233](https://github.com/Stranger6667/jsonschema-rs/issues/233)
+- Incorrect encoding of `/` and `~` characters in `fmt::Display` implementation for `JSONPointer`. [#233](https://github.com/Stranger6667/jsonschema/issues/233)
 
 ## [0.10.0] - 2021-06-17
 
 ### Added
 
 - **BREAKING**: Meta-schema validation for input schemas. By default, all input schemas are validated with their respective meta-schemas
-  and instead of `CompilationError` there will be the usual `ValidationError`. [#198](https://github.com/Stranger6667/jsonschema-rs/issues/198)
+  and instead of `CompilationError` there will be the usual `ValidationError`. [#198](https://github.com/Stranger6667/jsonschema/issues/198)
 
 ### Removed
 
@@ -486,13 +486,13 @@ Old names are retained for backward compatibility but will be removed in a futur
 
 ### Fixed
 
-- The `format` validator incorrectly rejecting supported regex patterns. [#230](https://github.com/Stranger6667/jsonschema-rs/issues/230)
+- The `format` validator incorrectly rejecting supported regex patterns. [#230](https://github.com/Stranger6667/jsonschema/issues/230)
 
 ## [0.9.0] - 2021-05-07
 
 ### Added
 
-- Support for look-around patterns. [#183](https://github.com/Stranger6667/jsonschema-rs/issues/183)
+- Support for look-around patterns. [#183](https://github.com/Stranger6667/jsonschema/issues/183)
 
 ### Fixed
 
@@ -506,8 +506,8 @@ Old names are retained for backward compatibility but will be removed in a futur
 
 ### Fixed
 
-- Skipped validation on an unsupported regular expression in `patternProperties`. [#213](https://github.com/Stranger6667/jsonschema-rs/issues/213)
-- Missing `array` type in error messages for `type` validators containing multiple values. [#216](https://github.com/Stranger6667/jsonschema-rs/issues/216)
+- Skipped validation on an unsupported regular expression in `patternProperties`. [#213](https://github.com/Stranger6667/jsonschema/issues/213)
+- Missing `array` type in error messages for `type` validators containing multiple values. [#216](https://github.com/Stranger6667/jsonschema/issues/216)
 
 ## [0.8.2] - 2021-05-03
 
@@ -561,7 +561,7 @@ Old names are retained for backward compatibility but will be removed in a futur
 
 - Reject IPv4 addresses with leading zeroes. As per the new test case in the JSONSchema test suite. [More info](https://sick.codes/universal-netmask-npm-package-used-by-270000-projects-vulnerable-to-octal-input-data-server-side-request-forgery-remote-file-inclusion-local-file-inclusion-and-more-cve-2021-28918/)
 - Do not look for sub-schemas inside `const` and `enum` keywords. Fixes an issue checked by [these tests](https://github.com/json-schema-org/JSON-Schema-Test-Suite/pull/471)
-- Check all properties in the `required` keyword implementation. [#190](https://github.com/Stranger6667/jsonschema-rs/issues/190)
+- Check all properties in the `required` keyword implementation. [#190](https://github.com/Stranger6667/jsonschema/issues/190)
 
 ### Removed
 
@@ -571,7 +571,7 @@ Old names are retained for backward compatibility but will be removed in a futur
 
 ### Fixed
 
-- Incorrect handling of `\w` and `\W` character groups in `pattern` keywords. [#180](https://github.com/Stranger6667/jsonschema-rs/issues/180)
+- Incorrect handling of `\w` and `\W` character groups in `pattern` keywords. [#180](https://github.com/Stranger6667/jsonschema/issues/180)
 - Incorrect handling of strings that contain escaped character groups (like `\\w`) in `pattern` keywords.
 
 ## [0.6.0] - 2021-02-03
@@ -583,22 +583,22 @@ Old names are retained for backward compatibility but will be removed in a futur
 ### Performance
 
 - Do not use `rayon` in `items` keyword as it gives significant overhead for a general case.
-- Avoid partially overlapping work in `additionalProperties` / `properties` / `patternProperties` validators. [#173](https://github.com/Stranger6667/jsonschema-rs/issues/173)
+- Avoid partially overlapping work in `additionalProperties` / `properties` / `patternProperties` validators. [#173](https://github.com/Stranger6667/jsonschema/issues/173)
 
 ## [0.5.0] - 2021-01-29
 
 ### Added
 
-- Cache for documents loaded via the `$ref` keyword. [#75](https://github.com/Stranger6667/jsonschema-rs/issues/75)
-- Meta schemas for JSON Schema drafts 4, 6, and 7. [#28](https://github.com/Stranger6667/jsonschema-rs/issues/28)
+- Cache for documents loaded via the `$ref` keyword. [#75](https://github.com/Stranger6667/jsonschema/issues/75)
+- Meta schemas for JSON Schema drafts 4, 6, and 7. [#28](https://github.com/Stranger6667/jsonschema/issues/28)
 
 ### Fixed
 
-- Not necessary network requests for schemas with `$id` values with trailing `#` symbol. [#163](https://github.com/Stranger6667/jsonschema-rs/issues/163)
+- Not necessary network requests for schemas with `$id` values with trailing `#` symbol. [#163](https://github.com/Stranger6667/jsonschema/issues/163)
 
 ### Performance
 
-- Enum validation for input values that have a type that is not present among the enum variants. [#80](https://github.com/Stranger6667/jsonschema-rs/issues/80)
+- Enum validation for input values that have a type that is not present among the enum variants. [#80](https://github.com/Stranger6667/jsonschema/issues/80)
 
 ### Removed
 
@@ -618,8 +618,8 @@ Old names are retained for backward compatibility but will be removed in a futur
 
 ### Fixed
 
-- Number comparison for `enum` and `const` keywords. [#149](https://github.com/Stranger6667/jsonschema-rs/issues/149)
-- Do not accept `date` strings with single-digit month and day values. [#151](https://github.com/Stranger6667/jsonschema-rs/issues/151)
+- Number comparison for `enum` and `const` keywords. [#149](https://github.com/Stranger6667/jsonschema/issues/149)
+- Do not accept `date` strings with single-digit month and day values. [#151](https://github.com/Stranger6667/jsonschema/issues/151)
 
 ### Performance
 
@@ -629,15 +629,15 @@ Old names are retained for backward compatibility but will be removed in a futur
 
 ### Fixed
 
-- Integers not recognized as numbers when the `type` keyword is a list of multiple values. [#147](https://github.com/Stranger6667/jsonschema-rs/issues/147)
+- Integers not recognized as numbers when the `type` keyword is a list of multiple values. [#147](https://github.com/Stranger6667/jsonschema/issues/147)
 
 ## [0.4.0] - 2020-11-09
 
 ### Added
 
-- Command Line Interface. [#102](https://github.com/Stranger6667/jsonschema-rs/issues/102)
+- Command Line Interface. [#102](https://github.com/Stranger6667/jsonschema/issues/102)
 - `ToString` trait implementation for validators.
-- Define `JSONSchema::options` to customise `JSONSchema` compilation [#131](https://github.com/Stranger6667/jsonschema-rs/issues/131)
+- Define `JSONSchema::options` to customise `JSONSchema` compilation [#131](https://github.com/Stranger6667/jsonschema/issues/131)
 - Allow user-defined `contentEncoding` and `contentMediaType` keywords
 
 ### Fixed
@@ -649,32 +649,32 @@ Old names are retained for backward compatibility but will be removed in a futur
 
 ### Changed
 
-- Enable Link-Time Optimizations and set `codegen-units` to 1. [#104](https://github.com/Stranger6667/jsonschema-rs/issues/104)
+- Enable Link-Time Optimizations and set `codegen-units` to 1. [#104](https://github.com/Stranger6667/jsonschema/issues/104)
 
 ### Fixed
 
-- `items` allows the presence of boolean schemas. [#115](https://github.com/Stranger6667/jsonschema-rs/pull/115)
+- `items` allows the presence of boolean schemas. [#115](https://github.com/Stranger6667/jsonschema/pull/115)
 
 ## [0.3.0] - 2020-06-08
 
 ### Added
 
-- JSONSchema Draft 4 support (except one optional case). [#34](https://github.com/Stranger6667/jsonschema-rs/pull/34)
-- CI builds. [#35](https://github.com/Stranger6667/jsonschema-rs/pull/35) and [#36](https://github.com/Stranger6667/jsonschema-rs/pull/36)
+- JSONSchema Draft 4 support (except one optional case). [#34](https://github.com/Stranger6667/jsonschema/pull/34)
+- CI builds. [#35](https://github.com/Stranger6667/jsonschema/pull/35) and [#36](https://github.com/Stranger6667/jsonschema/pull/36)
 - Implement specialized `is_valid` methods for all keywords.
 - Use `rayon` in `items` keyword validation.
-- Various `clippy` lints. [#66](https://github.com/Stranger6667/jsonschema-rs/pull/66)
-- `Debug` implementation for `JSONSchema` and  `Resolver`. [#97](https://github.com/Stranger6667/jsonschema-rs/pull/97)
+- Various `clippy` lints. [#66](https://github.com/Stranger6667/jsonschema/pull/66)
+- `Debug` implementation for `JSONSchema` and  `Resolver`. [#97](https://github.com/Stranger6667/jsonschema/pull/97)
 - `Default` implementation for `Draft`.
 
 ### Changed
 
-- Do not pin dependencies. [#90](https://github.com/Stranger6667/jsonschema-rs/pull/90)
-- Use `to_string` instead of `format!`. [#85](https://github.com/Stranger6667/jsonschema-rs/pull/85)
-- Cache compiled validators in `$ref` keyword. [#83](https://github.com/Stranger6667/jsonschema-rs/pull/83)
-- Use bitmap for validation of multiple types in `type` keyword implementation. [#78](https://github.com/Stranger6667/jsonschema-rs/pull/78)
-- Return errors instead of unwrap in various locations. [#73](https://github.com/Stranger6667/jsonschema-rs/pull/73)
-- Improve debug representation of validators. [#70](https://github.com/Stranger6667/jsonschema-rs/pull/70)
+- Do not pin dependencies. [#90](https://github.com/Stranger6667/jsonschema/pull/90)
+- Use `to_string` instead of `format!`. [#85](https://github.com/Stranger6667/jsonschema/pull/85)
+- Cache compiled validators in `$ref` keyword. [#83](https://github.com/Stranger6667/jsonschema/pull/83)
+- Use bitmap for validation of multiple types in `type` keyword implementation. [#78](https://github.com/Stranger6667/jsonschema/pull/78)
+- Return errors instead of unwrap in various locations. [#73](https://github.com/Stranger6667/jsonschema/pull/73)
+- Improve debug representation of validators. [#70](https://github.com/Stranger6667/jsonschema/pull/70)
 - Reduce the number of `match` statements during compilation functions resolving.
 - Use `expect` instead of `unwrap` for known cases when it is known that the code won't panic.
 - Add specialized validators for all `format` cases.
@@ -686,13 +686,13 @@ Old names are retained for backward compatibility but will be removed in a futur
 - Reuse parsed `DEFAULT_ROOT_URL` in `JSONSchema::compile`.
 - Avoid string allocation during `scope` parsing in `JSONSchema::compile`.
 - Refactor benchmark suite
-- Use `BTreeSet` in `additionalProperties` keyword during compilation to reduce the amount of copied data. [#91](https://github.com/Stranger6667/jsonschema-rs/pull/91)
+- Use `BTreeSet` in `additionalProperties` keyword during compilation to reduce the amount of copied data. [#91](https://github.com/Stranger6667/jsonschema/pull/91)
 
 ### Fixed
 
-- Wrong implementation of `is_valid` for `additionalProperties: false` keyword case. [#61](https://github.com/Stranger6667/jsonschema-rs/pull/61)
-- Possible panic due to type conversion in some numeric validators. [#72](https://github.com/Stranger6667/jsonschema-rs/pull/72)
-- Precision loss in `minimum`, `maximum`, `exclusiveMinimum` and `exclusiveMaximum` validators. [#84](https://github.com/Stranger6667/jsonschema-rs/issues/84)
+- Wrong implementation of `is_valid` for `additionalProperties: false` keyword case. [#61](https://github.com/Stranger6667/jsonschema/pull/61)
+- Possible panic due to type conversion in some numeric validators. [#72](https://github.com/Stranger6667/jsonschema/pull/72)
+- Precision loss in `minimum`, `maximum`, `exclusiveMinimum` and `exclusiveMaximum` validators. [#84](https://github.com/Stranger6667/jsonschema/issues/84)
 
 ## [0.2.0] - 2020-03-30
 
@@ -714,57 +714,57 @@ Old names are retained for backward compatibility but will be removed in a futur
 
 - Initial public release
 
-[Unreleased]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.25.1...HEAD
-[0.25.1]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.25.0...rust-v0.25.1
-[0.25.0]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.24.3...rust-v0.25.0
-[0.24.3]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.24.2...rust-v0.24.3
-[0.24.2]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.24.1...rust-v0.24.2
-[0.24.1]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.24.0...rust-v0.24.1
-[0.24.0]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.23.0...rust-v0.24.0
-[0.23.0]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.22.3...rust-v0.23.0
-[0.22.3]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.22.2...rust-v0.22.3
-[0.22.2]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.22.1...rust-v0.22.2
-[0.22.1]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.22.0...rust-v0.22.1
-[0.22.0]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.21.0...rust-v0.22.0
-[0.21.0]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.20.0...rust-v0.21.0
-[0.20.0]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.19.1...rust-v0.20.0
-[0.19.1]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.19.0...rust-v0.19.1
-[0.19.0]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.18.3...rust-v0.19.0
-[0.18.3]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.18.2...rust-v0.18.3
-[0.18.2]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.18.1...rust-v0.18.2
-[0.18.1]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.18.0...rust-v0.18.1
-[0.18.0]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.17.1...rust-v0.18.0
-[0.17.1]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.17.0...rust-v0.17.1
-[0.17.0]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.16.1...rust-v0.17.0
-[0.16.1]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.16.0...rust-v0.16.1
-[0.16.0]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.15.2...rust-v0.16.0
-[0.15.2]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.15.1...rust-v0.15.2
-[0.15.1]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.15.0...rust-v0.15.1
-[0.15.0]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.14.0...rust-v0.15.0
-[0.14.0]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.13.3...rust-v0.14.0
-[0.13.3]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.13.2...rust-v0.13.3
-[0.13.2]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.13.1...rust-v0.13.2
-[0.13.1]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.13.0...rust-v0.13.1
-[0.13.0]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.12.2...rust-v0.13.0
-[0.12.2]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.12.1...rust-v0.12.2
-[0.12.1]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.12.0...rust-v0.12.1
-[0.12.0]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.11.0...rust-v0.12.0
-[0.11.0]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.10.0...rust-v0.11.0
-[0.10.0]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.9.1...rust-v0.10.0
-[0.9.1]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.9.0...rust-v0.9.1
-[0.9.0]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.8.3...rust-v0.9.0
-[0.8.3]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.8.2...rust-v0.8.3
-[0.8.2]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.8.1...rust-v0.8.2
-[0.8.1]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.8.0...rust-v0.8.1
-[0.8.0]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.7.0...rust-v0.8.0
-[0.7.0]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.6.1...rust-v0.7.0
-[0.6.1]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.6.0...rust-v0.6.1
-[0.6.0]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.5.0...rust-v0.6.0
-[0.5.0]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.4.3...rust-v0.5.0
-[0.4.3]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.4.2...rust-v0.4.3
-[0.4.2]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.4.1...rust-v0.4.2
-[0.4.1]: https://github.com/Stranger6667/jsonschema-rs/compare/rust-v0.4.0...rust-v0.4.1
-[0.4.0]: https://github.com/Stranger6667/jsonschema-rs/compare/2bf8ccb78070cc10d1006789923a102e07da499d...rust-v0.4.0
-[0.3.1]: https://github.com/Stranger6667/jsonschema-rs/compare/v0.3.0...2bf8ccb78070cc10d1006789923a102e07da499d
-[0.3.0]: https://github.com/Stranger6667/jsonschema-rs/compare/v0.2.0...v0.3.0
-[0.2.0]: https://github.com/Stranger6667/jsonschema-rs/compare/v0.1.0...v0.2.0
+[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.25.1...HEAD
+[0.25.1]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.25.0...rust-v0.25.1
+[0.25.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.24.3...rust-v0.25.0
+[0.24.3]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.24.2...rust-v0.24.3
+[0.24.2]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.24.1...rust-v0.24.2
+[0.24.1]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.24.0...rust-v0.24.1
+[0.24.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.23.0...rust-v0.24.0
+[0.23.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.22.3...rust-v0.23.0
+[0.22.3]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.22.2...rust-v0.22.3
+[0.22.2]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.22.1...rust-v0.22.2
+[0.22.1]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.22.0...rust-v0.22.1
+[0.22.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.21.0...rust-v0.22.0
+[0.21.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.20.0...rust-v0.21.0
+[0.20.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.19.1...rust-v0.20.0
+[0.19.1]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.19.0...rust-v0.19.1
+[0.19.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.18.3...rust-v0.19.0
+[0.18.3]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.18.2...rust-v0.18.3
+[0.18.2]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.18.1...rust-v0.18.2
+[0.18.1]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.18.0...rust-v0.18.1
+[0.18.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.17.1...rust-v0.18.0
+[0.17.1]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.17.0...rust-v0.17.1
+[0.17.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.16.1...rust-v0.17.0
+[0.16.1]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.16.0...rust-v0.16.1
+[0.16.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.15.2...rust-v0.16.0
+[0.15.2]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.15.1...rust-v0.15.2
+[0.15.1]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.15.0...rust-v0.15.1
+[0.15.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.14.0...rust-v0.15.0
+[0.14.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.13.3...rust-v0.14.0
+[0.13.3]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.13.2...rust-v0.13.3
+[0.13.2]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.13.1...rust-v0.13.2
+[0.13.1]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.13.0...rust-v0.13.1
+[0.13.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.12.2...rust-v0.13.0
+[0.12.2]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.12.1...rust-v0.12.2
+[0.12.1]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.12.0...rust-v0.12.1
+[0.12.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.11.0...rust-v0.12.0
+[0.11.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.10.0...rust-v0.11.0
+[0.10.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.9.1...rust-v0.10.0
+[0.9.1]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.9.0...rust-v0.9.1
+[0.9.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.8.3...rust-v0.9.0
+[0.8.3]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.8.2...rust-v0.8.3
+[0.8.2]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.8.1...rust-v0.8.2
+[0.8.1]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.8.0...rust-v0.8.1
+[0.8.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.7.0...rust-v0.8.0
+[0.7.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.6.1...rust-v0.7.0
+[0.6.1]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.6.0...rust-v0.6.1
+[0.6.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.5.0...rust-v0.6.0
+[0.5.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.4.3...rust-v0.5.0
+[0.4.3]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.4.2...rust-v0.4.3
+[0.4.2]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.4.1...rust-v0.4.2
+[0.4.1]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.4.0...rust-v0.4.1
+[0.4.0]: https://github.com/Stranger6667/jsonschema/compare/2bf8ccb78070cc10d1006789923a102e07da499d...rust-v0.4.0
+[0.3.1]: https://github.com/Stranger6667/jsonschema/compare/v0.3.0...2bf8ccb78070cc10d1006789923a102e07da499d
+[0.3.0]: https://github.com/Stranger6667/jsonschema/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/Stranger6667/jsonschema/compare/v0.1.0...v0.2.0

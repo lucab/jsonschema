@@ -2,8 +2,8 @@
 
 [<img alt="crates.io" src="https://img.shields.io/crates/v/jsonschema.svg?style=flat-square&color=fc8d62&logo=rust" height="20">](https://crates.io/crates/jsonschema)
 [<img alt="docs.rs" src="https://img.shields.io/badge/docs.rs-jsonschema-66c2a5?style=flat-square&labelColor=555555&logo=docs.rs" height="20">](https://docs.rs/jsonschema)
-[<img alt="build status" src="https://img.shields.io/github/actions/workflow/status/Stranger6667/jsonschema-rs/ci.yml?branch=master&style=flat-square" height="20">](https://github.com/Stranger6667/jsonschema-rs/actions?query=branch%3Amaster)
-[<img alt="codecov.io" src="https://img.shields.io/codecov/c/gh/Stranger6667/jsonschema-rs?logo=codecov&style=flat-square&token=B1EnafGlRL" height="20">](https://app.codecov.io/github/Stranger6667/jsonschema-rs)
+[<img alt="build status" src="https://img.shields.io/github/actions/workflow/status/Stranger6667/jsonschema/ci.yml?branch=master&style=flat-square" height="20">](https://github.com/Stranger6667/jsonschema/actions?query=branch%3Amaster)
+[<img alt="codecov.io" src="https://img.shields.io/codecov/c/gh/Stranger6667/jsonschema?logo=codecov&style=flat-square&token=B1EnafGlRL" height="20">](https://app.codecov.io/github/Stranger6667/jsonschema)
 [<img alt="Supported Dialects" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Frust-jsonschema%2Fsupported_versions.json&style=flat-square">](https://bowtie.report/#/implementations/rust-jsonschema)
 
 A high-performance JSON Schema validator for Rust.
@@ -36,7 +36,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 ```
 
-You also can use it from the command line via the [jsonschema-cli](https://github.com/Stranger6667/jsonschema-rs/tree/master/crates/jsonschema-cli) crate.
+You also can use it from the command line via the [jsonschema-cli](https://github.com/Stranger6667/jsonschema/tree/master/crates/jsonschema-cli) crate.
 
 ```console
 $ jsonschema-cli schema.json -i instance.json
@@ -44,7 +44,7 @@ $ jsonschema-cli schema.json -i instance.json
 
 See more usage examples in the [documentation](https://docs.rs/jsonschema).
 
-> ⚠️ **Upgrading from older versions?** Check our [Migration Guide](https://github.com/Stranger6667/jsonschema-rs/blob/master/MIGRATION.md) for key changes.
+> ⚠️ **Upgrading from older versions?** Check our [Migration Guide](https://github.com/Stranger6667/jsonschema/blob/master/MIGRATION.md) for key changes.
 
 ## Highlights
 
@@ -52,7 +52,7 @@ See more usage examples in the [documentation](https://docs.rs/jsonschema).
 - 🔧 Custom keywords and format validators
 - 🌐 Remote reference fetching (network/file)
 - 🎨 `Basic` output style as per JSON Schema spec
-- 🔗 Bindings for [Python](https://github.com/Stranger6667/jsonschema-rs/tree/master/crates/jsonschema-py)
+- 🔗 Bindings for [Python](https://github.com/Stranger6667/jsonschema/tree/master/crates/jsonschema-py)
 - 🚀 WebAssembly support
 - 💻 Command Line Interface
 
@@ -81,7 +81,7 @@ You can check the current status on the [Bowtie Report](https://bowtie.report/#/
 - Up to **20-470x** faster than `valico` and `jsonschema_valid` for complex schemas
 - Generally **2-3x** faster than `boon`
 
-For detailed benchmarks, see our [full performance comparison](https://github.com/Stranger6667/jsonschema-rs/tree/master/crates/benchmark-suite).
+For detailed benchmarks, see our [full performance comparison](https://github.com/Stranger6667/jsonschema/tree/master/crates/benchmark-suite).
 
 ## Minimum Supported Rust Version (MSRV)
 
@@ -93,7 +93,7 @@ This library draws API design inspiration from the Python [`jsonschema`](https:/
 
 ## Support
 
-If you have questions, need help, or want to suggest improvements, please use [GitHub Discussions](https://github.com/Stranger6667/jsonschema-rs/discussions).
+If you have questions, need help, or want to suggest improvements, please use [GitHub Discussions](https://github.com/Stranger6667/jsonschema/discussions).
 
 ## Sponsorship
 
@@ -107,9 +107,9 @@ We welcome contributions! Here's how you can help:
 - Implement missing keywords
 - Fix failing test cases from the [JSON Schema test suite](https://bowtie.report/#/implementations/rust-jsonschema)
 
-See [CONTRIBUTING.md](https://github.com/Stranger6667/jsonschema-rs/blob/master/CONTRIBUTING.md) for more details.
+See [CONTRIBUTING.md](https://github.com/Stranger6667/jsonschema/blob/master/CONTRIBUTING.md) for more details.
 
 ## License
 
-Licensed under [MIT License](https://github.com/Stranger6667/jsonschema-rs/blob/master/LICENSE).
+Licensed under [MIT License](https://github.com/Stranger6667/jsonschema/blob/master/LICENSE).
 

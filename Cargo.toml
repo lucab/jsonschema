@@ -6,7 +6,7 @@ resolver = "2"
 rust-version = "1.70"
 edition = "2021"
 authors = ["Dmitry Dygalo <dmitry@dygalo.dev>"]
-repository = "https://github.com/Stranger6667/jsonschema-rs"
+repository = "https://github.com/Stranger6667/jsonschema"
 license = "MIT"
 
 [profile.release]
