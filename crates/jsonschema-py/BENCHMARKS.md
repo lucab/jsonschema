@@ -45,23 +45,23 @@ Sources:
 
 | Benchmark     | fastjsonschema | jsonschema    | jsonschema-rs |
 |---------------|----------------|---------------|----------------|
-| OpenAPI       | - (1)          | 682.93 ms (**x95.94**) | 7.12 ms     |
-| Swagger       | - (1)          | 1204.99 ms (**x221.35**)| 5.68 ms     |
-| Canada (GeoJSON) | 11.39 ms (**x4.24**)  | 803.60 ms (**x299.57**) | 2.68 ms |
-| CITM Catalog  | 5.19 ms (**x3.24**)   | 85.19 ms (**x53.24**) | 1.65 ms  |
-| Fast (Valid)  | 2.03 µs (**x7.08**)   | 37.11 µs (**x129.28**) | 316.60 ns  |
-| Fast (Invalid)| 2.26 µs (**x3.89**)   | 36.31 µs (**x62.37**) | 582.10 ns  |
+| OpenAPI       | - (1)          | 640.34 ms (**x87.62**) | 7.31 ms     |
+| Swagger       | - (1)          | 1134.76 ms (**x214.34**)| 5.29 ms     |
+| Canada (GeoJSON) | 10.43 ms (**x4.21**)  | 785.21 ms (**x316.82**) | 2.48 ms |
+| CITM Catalog  | 4.97 ms (**x3.66**)   | 82.42 ms (**x60.67**) | 1.36 ms  |
+| Fast (Valid)  | 1.95 µs (**x6.49**)   | 35.81 µs (**x119.15**) | 300.55 ns  |
+| Fast (Invalid)| 2.17 µs (**x4.14**)   | 35.83 µs (**x68.31**) | 524.50 ns  |
 
 ### jsonschema-rs Performance: `validate` vs `is_valid`
 
 | Benchmark     | validate   | is_valid   | Speedup |
 |---------------|------------|------------|---------|
-| OpenAPI       | 7.12 ms    | 7.74 ms    | **0.92x**   |
-| Swagger       | 5.68 ms    | 5.44 ms    | **1.04x**   |
-| Canada (GeoJSON) | 2.68 ms | 2.68 ms    | **1.00x**   |
-| CITM Catalog  | 1.65 ms    | 1.60 ms    | **1.03x**   |
-| Fast (Valid)  | 316.60 ns  | 287.05 ns  | **1.10x**   |
-| Fast (Invalid)| 582.10 ns  | 630.99 ns  | **0.92x**   |
+| OpenAPI       | 7.31 ms    | 6.51 ms    | **1.12x**   |
+| Swagger       | 5.29 ms    | 5.15 ms    | **1.03x**   |
+| Canada (GeoJSON) | 2.48 ms | 2.43 ms    | **1.02x**   |
+| CITM Catalog  | 1.36 ms    | 1.28 ms    | **1.06x**   |
+| Fast (Valid)  | 300.55 ns  | 249.95 ns  | **1.20x**   |
+| Fast (Invalid)| 524.50 ns  | 561.00 ns  | **0.93x**   |
 
 Notes:
 
