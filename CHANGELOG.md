@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+- **BREAKING**: Remove unused `ValidationErrorKind::JSONParse`, `ValidationErrorKind::InvalidReference`, `ValidationErrorKind::Schema`, `ValidationErrorKind::FileNotFound` and `ValidationErrorKind::Utf8`.
+
 ### Performance
 
 - Optimize error formatting in some cases.

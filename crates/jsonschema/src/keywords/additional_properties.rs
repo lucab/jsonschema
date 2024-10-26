@@ -13,6 +13,7 @@ use crate::{
     node::SchemaNode,
     output::{Annotations, BasicOutput, OutputUnit},
     paths::{LazyLocation, Location},
+    primitive_type::PrimitiveType,
     properties::*,
     validator::{PartialApplication, Validate},
 };
@@ -1035,47 +1036,52 @@ pub(crate) fn compile<'a>(
     if let Some(patterns) = parent.get("patternProperties") {
         if let Value::Object(obj) = patterns {
             // Compile all patterns & their validators to avoid doing work in the `patternProperties` validator
-            if let Ok(compiled_patterns) = compile_patterns(ctx, obj) {
-                match schema {
-                    Value::Bool(true) => None, // "additionalProperties" are "true" by default
-                    Value::Bool(false) => {
-                        if let Some(properties) = properties {
-                            compile_dynamic_prop_map_validator!(
-                                AdditionalPropertiesWithPatternsNotEmptyFalseValidator,
-                                properties,
-                                ctx,
-                                compiled_patterns,
-                            )
-                        } else {
-                            Some(AdditionalPropertiesWithPatternsFalseValidator::compile(
-                                ctx,
-                                compiled_patterns,
-                            ))
-                        }
-                    }
-                    _ => {
-                        if let Some(properties) = properties {
-                            compile_dynamic_prop_map_validator!(
-                                AdditionalPropertiesWithPatternsNotEmptyValidator,
-                                properties,
-                                ctx,
-                                schema,
-                                compiled_patterns,
-                            )
-                        } else {
-                            Some(AdditionalPropertiesWithPatternsValidator::compile(
-                                ctx,
-                                schema,
-                                compiled_patterns,
-                            ))
-                        }
+            let compiled_patterns = match compile_patterns(ctx, obj) {
+                Ok(patterns) => patterns,
+                Err(error) => return Some(Err(error)),
+            };
+            match schema {
+                Value::Bool(true) => None, // "additionalProperties" are "true" by default
+                Value::Bool(false) => {
+                    if let Some(properties) = properties {
+                        compile_dynamic_prop_map_validator!(
+                            AdditionalPropertiesWithPatternsNotEmptyFalseValidator,
+                            properties,
+                            ctx,
+                            compiled_patterns,
+                        )
+                    } else {
+                        Some(AdditionalPropertiesWithPatternsFalseValidator::compile(
+                            ctx,
+                            compiled_patterns,
+                        ))
                     }
                 }
-            } else {
-                Some(Err(ValidationError::null_schema()))
+                _ => {
+                    if let Some(properties) = properties {
+                        compile_dynamic_prop_map_validator!(
+                            AdditionalPropertiesWithPatternsNotEmptyValidator,
+                            properties,
+                            ctx,
+                            schema,
+                            compiled_patterns,
+                        )
+                    } else {
+                        Some(AdditionalPropertiesWithPatternsValidator::compile(
+                            ctx,
+                            schema,
+                            compiled_patterns,
+                        ))
+                    }
+                }
             }
         } else {
-            Some(Err(ValidationError::null_schema()))
+            Some(Err(ValidationError::single_type_error(
+                Location::new(),
+                ctx.location().clone(),
+                schema,
+                PrimitiveType::Object,
+            )))
         }
     } else {
         match schema {

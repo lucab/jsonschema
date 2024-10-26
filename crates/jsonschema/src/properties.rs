@@ -142,7 +142,12 @@ macro_rules! compile_dynamic_prop_map_validator {
                 ))
             }
         } else {
-            Some(Err(ValidationError::null_schema()))
+            Some(Err(ValidationError::custom(
+                Location::new(),
+                Location::new(),
+                $properties,
+                "Unexpected type",
+            )))
         }
     }};
 }

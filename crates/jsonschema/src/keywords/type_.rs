@@ -299,12 +299,12 @@ pub(crate) fn compile<'a>(
 ) -> Option<CompilationResult<'a>> {
     let location = ctx.location().join("type");
     match schema {
-        Value::String(item) => compile_single_type(item.as_str(), location),
+        Value::String(item) => Some(compile_single_type(item.as_str(), location, schema)),
         Value::Array(items) => {
             if items.len() == 1 {
                 let item = &items[0];
-                if let Value::String(item) = item {
-                    compile_single_type(item.as_str(), location)
+                if let Value::String(ty) = item {
+                    Some(compile_single_type(ty.as_str(), location, item))
                 } else {
                     Some(Err(ValidationError::single_type_error(
                         Location::new(),
@@ -328,16 +328,25 @@ pub(crate) fn compile<'a>(
     }
 }
 
-fn compile_single_type(item: &str, location: Location) -> Option<CompilationResult> {
+fn compile_single_type<'a>(
+    item: &str,
+    location: Location,
+    instance: &'a Value,
+) -> CompilationResult<'a> {
     match PrimitiveType::try_from(item) {
-        Ok(PrimitiveType::Array) => Some(ArrayTypeValidator::compile(location)),
-        Ok(PrimitiveType::Boolean) => Some(BooleanTypeValidator::compile(location)),
-        Ok(PrimitiveType::Integer) => Some(IntegerTypeValidator::compile(location)),
-        Ok(PrimitiveType::Null) => Some(NullTypeValidator::compile(location)),
-        Ok(PrimitiveType::Number) => Some(NumberTypeValidator::compile(location)),
-        Ok(PrimitiveType::Object) => Some(ObjectTypeValidator::compile(location)),
-        Ok(PrimitiveType::String) => Some(StringTypeValidator::compile(location)),
-        Err(()) => Some(Err(ValidationError::null_schema())),
+        Ok(PrimitiveType::Array) => ArrayTypeValidator::compile(location),
+        Ok(PrimitiveType::Boolean) => BooleanTypeValidator::compile(location),
+        Ok(PrimitiveType::Integer) => IntegerTypeValidator::compile(location),
+        Ok(PrimitiveType::Null) => NullTypeValidator::compile(location),
+        Ok(PrimitiveType::Number) => NumberTypeValidator::compile(location),
+        Ok(PrimitiveType::Object) => ObjectTypeValidator::compile(location),
+        Ok(PrimitiveType::String) => StringTypeValidator::compile(location),
+        Err(()) => Err(ValidationError::custom(
+            Location::new(),
+            location,
+            instance,
+            "Unexpected type",
+        )),
     }
 }
 

@@ -4,7 +4,6 @@ use crate::{
     ErrorIterator, ValidationError,
 };
 use serde_json::{Map, Value};
-use std::fmt::{Display, Formatter};
 
 pub(crate) struct CustomKeyword {
     inner: Box<dyn Keyword>,
@@ -13,12 +12,6 @@ pub(crate) struct CustomKeyword {
 impl CustomKeyword {
     pub(crate) fn new(inner: Box<dyn Keyword>) -> Self {
         Self { inner }
-    }
-}
-
-impl Display for CustomKeyword {
-    fn fmt(&self, _: &mut Formatter<'_>) -> std::fmt::Result {
-        Ok(())
     }
 }
 

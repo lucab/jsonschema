@@ -8,9 +8,7 @@ use std::{
     borrow::Cow,
     error,
     fmt::{self, Formatter, Write},
-    io,
     iter::{empty, once},
-    str::Utf8Error,
     string::FromUtf8Error,
 };
 
@@ -87,18 +85,10 @@ pub enum ValidationErrorKind {
     ExclusiveMinimum { limit: Value },
     /// Everything is invalid for `false` schema.
     FalseSchema,
-    /// If the referenced file is not found during ref resolution.
-    FileNotFound { error: io::Error },
     /// When the input doesn't match to the specified format.
     Format { format: String },
     /// May happen in `contentEncoding` validation if `base64` encoded data is invalid.
     FromUtf8 { error: FromUtf8Error },
-    /// Invalid UTF-8 string during percent encoding when resolving happens
-    Utf8 { error: Utf8Error },
-    /// May happen during ref resolution when remote document is not a valid JSON.
-    JSONParse { error: serde_json::Error },
-    /// `ref` value is not valid.
-    InvalidReference { reference: String },
     /// Too many items in an array.
     MaxItems { limit: u64 },
     /// Value is too large.
@@ -131,8 +121,6 @@ pub enum ValidationErrorKind {
     },
     /// When a required property is missing.
     Required { property: Value },
-    /// Resolved schema failed to compile.
-    Schema,
     /// When the input value doesn't match one or multiple required types.
     Type { kind: TypeKind },
     /// Unexpected items.
@@ -398,14 +386,6 @@ impl<'a> ValidationError<'a> {
             schema_path: location,
         }
     }
-    pub(crate) fn file_not_found(error: io::Error) -> ValidationError<'a> {
-        ValidationError {
-            instance_path: Location::new(),
-            instance: Cow::Owned(Value::Null),
-            kind: ValidationErrorKind::FileNotFound { error },
-            schema_path: Location::new(),
-        }
-    }
     pub(crate) fn format(
         location: Location,
         instance_path: Location,
@@ -426,14 +406,6 @@ impl<'a> ValidationError<'a> {
             instance_path: Location::new(),
             instance: Cow::Owned(Value::Null),
             kind: ValidationErrorKind::FromUtf8 { error },
-            schema_path: Location::new(),
-        }
-    }
-    pub(crate) fn json_parse(error: serde_json::Error) -> ValidationError<'a> {
-        ValidationError {
-            instance_path: Location::new(),
-            instance: Cow::Owned(Value::Null),
-            kind: ValidationErrorKind::JSONParse { error },
             schema_path: Location::new(),
         }
     }
@@ -633,15 +605,6 @@ impl<'a> ValidationError<'a> {
         }
     }
 
-    pub(crate) fn null_schema() -> ValidationError<'a> {
-        ValidationError {
-            instance_path: Location::new(),
-            instance: Cow::Owned(Value::Null),
-            kind: ValidationErrorKind::Schema,
-            schema_path: Location::new(),
-        }
-    }
-
     pub(crate) const fn single_type_error(
         location: Location,
         instance_path: Location,
@@ -710,14 +673,6 @@ impl<'a> ValidationError<'a> {
             schema_path: location,
         }
     }
-    pub(crate) fn utf8(error: Utf8Error) -> ValidationError<'a> {
-        ValidationError {
-            instance_path: Location::new(),
-            instance: Cow::Owned(Value::Null),
-            kind: ValidationErrorKind::Utf8 { error },
-            schema_path: Location::new(),
-        }
-    }
     /// Create a new custom validation error.
     pub fn custom(
         location: Location,
@@ -737,12 +692,6 @@ impl<'a> ValidationError<'a> {
 }
 
 impl error::Error for ValidationError<'_> {}
-impl From<serde_json::Error> for ValidationError<'_> {
-    #[inline]
-    fn from(err: serde_json::Error) -> Self {
-        ValidationError::json_parse(err)
-    }
-}
 impl From<referencing::Error> for ValidationError<'_> {
     #[inline]
     fn from(err: referencing::Error) -> Self {
@@ -754,22 +703,10 @@ impl From<referencing::Error> for ValidationError<'_> {
         }
     }
 }
-impl From<io::Error> for ValidationError<'_> {
-    #[inline]
-    fn from(err: io::Error) -> Self {
-        ValidationError::file_not_found(err)
-    }
-}
 impl From<FromUtf8Error> for ValidationError<'_> {
     #[inline]
     fn from(err: FromUtf8Error) -> Self {
         ValidationError::from_utf8(err)
-    }
-}
-impl From<Utf8Error> for ValidationError<'_> {
-    #[inline]
-    fn from(err: Utf8Error) -> Self {
-        ValidationError::utf8(err)
     }
 }
 
@@ -778,10 +715,7 @@ impl fmt::Display for ValidationError<'_> {
     #[allow(clippy::too_many_lines)] // The function is long but it does formatting only
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         match &self.kind {
-            ValidationErrorKind::Schema => f.write_str("Schema error"),
-            ValidationErrorKind::JSONParse { error } => error.fmt(f),
             ValidationErrorKind::Referencing(error) => error.fmt(f),
-            ValidationErrorKind::FileNotFound { error } => error.fmt(f),
             ValidationErrorKind::BacktrackLimitExceeded { error } => error.fmt(f),
             ValidationErrorKind::Format { format } => {
                 write!(f, r#"{} is not a "{}""#, self.instance, format)
@@ -859,7 +793,6 @@ impl fmt::Display for ValidationError<'_> {
                 )
             }
             ValidationErrorKind::FromUtf8 { error } => error.fmt(f),
-            ValidationErrorKind::Utf8 { error } => error.fmt(f),
             ValidationErrorKind::Enum { options } => {
                 write!(f, "{} is not one of {}", self.instance, options)
             }
@@ -875,9 +808,6 @@ impl fmt::Display for ValidationError<'_> {
             ),
             ValidationErrorKind::FalseSchema => {
                 write!(f, "False schema does not allow {}", self.instance)
-            }
-            ValidationErrorKind::InvalidReference { reference } => {
-                write!(f, "Invalid reference: {}", reference)
             }
             ValidationErrorKind::Maximum { limit } => write!(
                 f,
