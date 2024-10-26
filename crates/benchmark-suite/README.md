@@ -40,23 +40,23 @@ Sources:
 
 | Benchmark     | jsonschema_valid | valico        | boon          | jsonschema (validate) |
 |---------------|------------------|---------------|---------------|------------------------|
-| OpenAPI       | -                | -             | 6.60 ms (**x2.97**) | 2.22 ms              |
-| Swagger       | -                | 114.26 ms (**x38.93**)   | 10.06 ms (**x3.43**)     | 2.94 ms              |
-| GeoJSON       | 19.56 ms (**x23.85**)      | 299.53 ms (**x365.22**)   | 16.59 ms (**x20.23**)  | 820.21 µs            |
-| CITM Catalog  | 2.84 ms (**x2.22**)        | 28.30 ms (**x22.11**)    | 1.11 ms (**x0.87**)     | 1.28 ms              |
-| Fast (Valid)  | 1.11 µs (**x4.37**)        | 3.78 µs (**x14.89**)     | 332.39 ns (**x1.31**)   | 253.77 ns            |
-| Fast (Invalid)| 247.88 ns (**x0.64**)      | 3.82 µs (**x9.85**)      | 383.79 ns (**x0.99**)   | 387.78 ns            |
+| OpenAPI       | -                | -             | 6.60 ms (**x3.17**) | 2.0813 ms            |
+| Swagger       | -                | 114.26 ms (**x51.90**)   | 10.06 ms (**x4.57**)     | 2.2021 ms            |
+| GeoJSON       | 19.56 ms (**x23.37**)      | 299.53 ms (**x358.00**)   | 16.59 ms (**x19.82**)  | 836.93 µs            |
+| CITM Catalog  | 2.84 ms (**x7.40**)        | 28.30 ms (**x73.74**)    | 1.11 ms (**x2.89**)     | 383.98 µs            |
+| Fast (Valid)  | 1.11 µs (**x14.67**)       | 3.78 µs (**x49.94**)     | 332.39 ns (**x4.39**)   | 75.748 ns            |
+| Fast (Invalid)| 247.88 ns (**x4.67**)      | 3.82 µs (**x71.93**)     | 383.79 ns (**x7.22**)   | 53.176 ns            |
 
 ### jsonschema Performance: `validate` vs `is_valid`
 
 | Benchmark     | validate   | is_valid   | Speedup |
 |---------------|------------|------------|---------|
-| OpenAPI       | 2.2104 ms  | 2.0860 ms  | **1.06x**   |
-| Swagger       | 2.9327 ms  | 1.9649 ms  | **1.49x**   |
-| GeoJSON       | 820.21 µs  | 803.42 µs  | **1.02x**   |
-| CITM Catalog  | 1.2794 ms  | 309.66 µs  | **4.13x**   |
-| Fast (Valid)  | 253.77 ns  | 54.162 ns  | **4.69x**   |
-| Fast (Invalid)| 387.78 ns  | 3.4379 ns  | **112.80x**  |
+| OpenAPI       | 2.0813 ms  | 2.0612 ms  | **1.01x**   |
+| Swagger       | 2.2021 ms  | 2.0729 ms  | **1.06x**   |
+| GeoJSON       | 836.93 µs  | 796.28 µs  | **1.05x**   |
+| CITM Catalog  | 383.98 µs  | 313.13 µs  | **1.23x**   |
+| Fast (Valid)  | 75.748 ns  | 53.642 ns  | **1.41x**   |
+| Fast (Invalid)| 53.176 ns  | 3.4919 ns  | **15.23x**  |
 
 Notes:
 
@@ -64,7 +64,7 @@ Notes:
 
 2. `jsonschema_valid` fails to resolve local references (e.g. `#/definitions/definitions`).
 
-You can find benchmark code in [benches/](benches/), Rust version is `1.81`.
+You can find benchmark code in [benches/](benches/), Rust version is `1.82`.
 
 ## Contributing
 

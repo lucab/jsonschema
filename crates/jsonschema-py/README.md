@@ -151,15 +151,14 @@ jsonschema_rs.Draft202012Validator(invalid_schema, ignore_unknown_formats=False)
 
 `jsonschema-rs` is designed for high performance, outperforming other Python JSON Schema validators in most scenarios:
 
-- Up to **30-390x** faster than `jsonschema` for complex schemas and large instances
-- Generally **2-5x** faster than `fastjsonschema` on CPython
-- Comparable or slightly slower performance for very small schemas
+- Up to **50-390x** faster than `jsonschema` for complex schemas and large instances
+- Generally **3-7x** faster than `fastjsonschema` on CPython
 
 For detailed benchmarks, see our [full performance comparison](https://github.com/Stranger6667/jsonschema/blob/master/crates/jsonschema-py/BENCHMARKS.md).
 
 ## Python support
 
-`jsonschema-rs` supports CPython 3.8, 3.9, 3.10, 3.11, and 3.12.
+`jsonschema-rs` supports CPython 3.8, 3.9, 3.10, 3.11, 3.12, and 3.13.
 
 ## Acknowledgements
 

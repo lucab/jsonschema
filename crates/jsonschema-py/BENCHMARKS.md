@@ -45,29 +45,29 @@ Sources:
 
 | Benchmark     | fastjsonschema | jsonschema    | jsonschema-rs |
 |---------------|----------------|---------------|----------------|
-| OpenAPI       | - (1)          | 644.21 ms (**x83.84**) | 7.68 ms     |
-| Swagger       | - (1)          | 1141.58 ms (**x182.70**)| 6.25 ms     |
-| Canada (GeoJSON) | 10.52 ms (**x4.07**)  | 780.44 ms (**x301.87**) | 2.59 ms |
-| CITM Catalog  | 4.94 ms (**x2.04**)   | 82.37 ms (**x34.03**) | 2.42 ms  |
-| Fast (Valid)  | 1.97 µs (**x3.39**)   | 37.66 µs (**x64.82**) | 581.00 ns  |
-| Fast (Invalid)| 2.28 µs (**x2.78**)   | 36.45 µs (**x44.40**) | 821.00 ns  |
+| OpenAPI       | - (1)          | 682.93 ms (**x95.94**) | 7.12 ms     |
+| Swagger       | - (1)          | 1204.99 ms (**x221.35**)| 5.68 ms     |
+| Canada (GeoJSON) | 11.39 ms (**x4.24**)  | 803.60 ms (**x299.57**) | 2.68 ms |
+| CITM Catalog  | 5.19 ms (**x3.24**)   | 85.19 ms (**x53.24**) | 1.65 ms  |
+| Fast (Valid)  | 2.03 µs (**x7.08**)   | 37.11 µs (**x129.28**) | 316.60 ns  |
+| Fast (Invalid)| 2.26 µs (**x3.89**)   | 36.31 µs (**x62.37**) | 582.10 ns  |
 
 ### jsonschema-rs Performance: `validate` vs `is_valid`
 
 | Benchmark     | validate   | is_valid   | Speedup |
 |---------------|------------|------------|---------|
-| OpenAPI       | 7.68 ms    | 6.91 ms    | **1.11x**   |
-| Swagger       | 6.25 ms    | 5.24 ms    | **1.19x**   |
-| Canada (GeoJSON) | 2.59 ms | 2.59 ms    | **1.00x**   |
-| CITM Catalog  | 2.42 ms    | 1.36 ms    | **1.77x**   |
-| Fast (Valid)  | 581.00 ns  | 350.00 ns  | **1.66x**   |
-| Fast (Invalid)| 821.00 ns  | 591.00 ns  | **1.39x**   |
+| OpenAPI       | 7.12 ms    | 7.74 ms    | **0.92x**   |
+| Swagger       | 5.68 ms    | 5.44 ms    | **1.04x**   |
+| Canada (GeoJSON) | 2.68 ms | 2.68 ms    | **1.00x**   |
+| CITM Catalog  | 1.65 ms    | 1.60 ms    | **1.03x**   |
+| Fast (Valid)  | 316.60 ns  | 287.05 ns  | **1.10x**   |
+| Fast (Invalid)| 582.10 ns  | 630.99 ns  | **0.92x**   |
 
 Notes:
 
 1. `fastjsonschema` fails to compile the Open API spec due to the presence of the `uri-reference` format (that is not defined in Draft 4). However, unknown formats are explicitly supported by the spec.
 
-You can find benchmark code in [benches/](benches/), Python version `3.13.0`, Rust version `1.81`.
+You can find benchmark code in [benches/](benches/), Python version `3.13.0`, Rust version `1.82`.
 
 ## Contributing
 
