@@ -45,9 +45,9 @@ Sources:
 
 | Benchmark     | fastjsonschema | jsonschema    | jsonschema-rs |
 |---------------|----------------|---------------|----------------|
-| OpenAPI       | - (1)          | 640.34 ms (**x87.62**) | 7.31 ms     |
-| Swagger       | - (1)          | 1134.76 ms (**x214.34**)| 5.29 ms     |
-| Canada (GeoJSON) | 10.43 ms (**x4.21**)  | 785.21 ms (**x316.82**) | 2.48 ms |
+| OpenAPI       | - (1)          | 640.34 ms (**x94.35**) | 6.79 ms     |
+| Swagger       | - (1)          | 1134.76 ms (**x232.81**)| 4.88 ms     |
+| Canada (GeoJSON) | 10.43 ms (**x4.33**)  | 785.21 ms (**x325.59**) | 2.41 ms |
 | CITM Catalog  | 4.97 ms (**x3.66**)   | 82.42 ms (**x60.67**) | 1.36 ms  |
 | Fast (Valid)  | 1.95 µs (**x6.49**)   | 35.81 µs (**x119.15**) | 300.55 ns  |
 | Fast (Invalid)| 2.17 µs (**x4.14**)   | 35.83 µs (**x68.31**) | 524.50 ns  |
@@ -56,9 +56,9 @@ Sources:
 
 | Benchmark     | validate   | is_valid   | Speedup |
 |---------------|------------|------------|---------|
-| OpenAPI       | 7.31 ms    | 6.51 ms    | **1.12x**   |
-| Swagger       | 5.29 ms    | 5.15 ms    | **1.03x**   |
-| Canada (GeoJSON) | 2.48 ms | 2.43 ms    | **1.02x**   |
+| OpenAPI       | 6.79 ms    | 6.84 ms    | **0.99x**   |
+| Swagger       | 4.88 ms    | 4.73 ms    | **1.03x**   |
+| Canada (GeoJSON) | 2.41 ms | 2.34 ms    | **1.03x**   |
 | CITM Catalog  | 1.36 ms    | 1.28 ms    | **1.06x**   |
 | Fast (Valid)  | 300.55 ns  | 249.95 ns  | **1.20x**   |
 | Fast (Invalid)| 524.50 ns  | 561.00 ns  | **0.93x**   |
