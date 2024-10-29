@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.26.1] - 2024-10-29
+
 ### Fixed
 
 - Return "Unknown specification" error on `https`-prefixed `$schema` for Draft 4, 5, 6. [#629](https://github.com/Stranger6667/jsonschema/issues/629)
@@ -565,7 +567,8 @@
 ## 0.1.0 - 2020-06-09
 - Initial public release
 
-[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/python-v0.26.0...HEAD
+[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/python-v0.26.1...HEAD
+[0.26.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.26.0...python-v0.26.1
 [0.26.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.25.1...python-v0.26.0
 [0.25.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.25.0...python-v0.25.1
 [0.25.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.24.3...python-v0.25.0
