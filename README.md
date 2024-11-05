@@ -23,7 +23,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let validator = jsonschema::validator_for(&schema)?;
 
     // Fail on first error
-    assert!(validator.validate(&instance));
+    assert!(validator.validate(&instance).is_ok());
 
     // Iterate over errors
     for error in validator.iter_errors(&instance) {
