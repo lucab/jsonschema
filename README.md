@@ -17,7 +17,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // One-off validation
     assert!(jsonschema::is_valid(&schema, &instance));
-    assert!(jsonschema::validate(&schema, &instance));
+    assert!(jsonschema::validate(&schema, &instance).is_ok());
 
     // Build & reuse (faster)
     let validator = jsonschema::validator_for(&schema)?;
