@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.26.2] - 2024-12-16
+
 ### Documentation
 
 - Fix documentation for `validate`
@@ -741,7 +743,8 @@ Old names are retained for backward compatibility but will be removed in a futur
 
 - Initial public release
 
-[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.26.1...HEAD
+[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.26.2...HEAD
+[0.26.2]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.26.1...rust-v0.26.2
 [0.26.1]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.26.0...rust-v0.26.1
 [0.26.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.25.1...rust-v0.26.0
 [0.25.1]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.25.0...rust-v0.25.1
