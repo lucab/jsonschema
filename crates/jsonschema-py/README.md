@@ -195,6 +195,7 @@ validator.is_valid({
 validator.is_valid({
     "name": "Bob"
 })  # False
+```
 
 ## Performance
 
