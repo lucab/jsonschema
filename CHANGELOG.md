@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.27.0] - 2024-12-23
+
 ### Added
 
 - Added `masked()` and `masked_with()` methods to `ValidationError` to support hiding sensitive data in error messages. [#434](https://github.com/Stranger6667/jsonschema/issues/434)
@@ -752,7 +754,8 @@ Old names are retained for backward compatibility but will be removed in a futur
 
 - Initial public release
 
-[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.26.2...HEAD
+[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.27.0...HEAD
+[0.27.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.26.2...rust-v0.27.0
 [0.26.2]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.26.1...rust-v0.26.2
 [0.26.1]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.26.0...rust-v0.26.1
 [0.26.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.25.1...rust-v0.26.0
