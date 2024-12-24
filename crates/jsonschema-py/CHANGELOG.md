@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.27.1] - 2024-12-24
+
 ### Added
 
 - Extend `ValidationErrorKind` with error-specific context data.
@@ -585,7 +587,8 @@
 ## 0.1.0 - 2020-06-09
 - Initial public release
 
-[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/python-v0.27.0...HEAD
+[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/python-v0.27.1...HEAD
+[0.27.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.27.0...python-v0.27.1
 [0.27.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.26.1...python-v0.27.0
 [0.26.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.26.0...python-v0.26.1
 [0.26.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.25.1...python-v0.26.0
