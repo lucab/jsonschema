@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.28.0] - 2024-12-29
+
 ### Added
 
 - Implement `IntoIterator` for `Location` to iterate over `LocationSegment`.
@@ -767,7 +769,8 @@ Old names are retained for backward compatibility but will be removed in a futur
 
 - Initial public release
 
-[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.27.1...HEAD
+[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.28.0...HEAD
+[0.28.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.27.1...rust-v0.28.0
 [0.27.1]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.27.0...rust-v0.27.1
 [0.27.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.26.2...rust-v0.27.0
 [0.26.2]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.26.1...rust-v0.26.2
