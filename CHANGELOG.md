@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.28.1] - 2024-12-31
+
 ### Fixed
 
 - Handle fragment references within `$id`-anchored subschemas. [#640](https://github.com/Stranger6667/jsonschema/issues/640)
@@ -773,7 +775,8 @@ Old names are retained for backward compatibility but will be removed in a futur
 
 - Initial public release
 
-[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.28.0...HEAD
+[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.28.1...HEAD
+[0.28.1]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.28.0...rust-v0.28.1
 [0.28.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.27.1...rust-v0.28.0
 [0.27.1]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.27.0...rust-v0.27.1
 [0.27.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.26.2...rust-v0.27.0
