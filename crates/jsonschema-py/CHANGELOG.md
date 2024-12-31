@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.28.1] - 2024-12-31
+
 ### Fixed
 
 - Handle fragment references within `$id`-anchored subschemas. [#640](https://github.com/Stranger6667/jsonschema/issues/640)
@@ -597,7 +599,8 @@
 ## 0.1.0 - 2020-06-09
 - Initial public release
 
-[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/python-v0.28.0...HEAD
+[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/python-v0.28.1...HEAD
+[0.28.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.28.0...python-v0.28.1
 [0.28.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.27.1...python-v0.28.0
 [0.27.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.27.0...python-v0.27.1
 [0.27.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.26.1...python-v0.27.0
