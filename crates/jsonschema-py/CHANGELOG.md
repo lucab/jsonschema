@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.28.2] - 2025-01-22
+
 ### Fixed
 
 - Resolving external references that nested inside local references. [#671](https://github.com/Stranger6667/jsonschema/issues/671)
@@ -608,7 +610,8 @@
 ## 0.1.0 - 2020-06-09
 - Initial public release
 
-[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/python-v0.28.1...HEAD
+[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/python-v0.28.2...HEAD
+[0.28.2]: https://github.com/Stranger6667/jsonschema/compare/python-v0.28.1...python-v0.28.2
 [0.28.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.28.0...python-v0.28.1
 [0.28.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.27.1...python-v0.28.0
 [0.27.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.27.0...python-v0.27.1
