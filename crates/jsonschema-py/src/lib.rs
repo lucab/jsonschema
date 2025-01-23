@@ -1164,7 +1164,6 @@ fn jsonschema_rs(py: Python<'_>, module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_submodule(&meta)?;
 
     // Add build metadata to ease triaging incoming issues
-    #[allow(deprecated)]
     module.add("__build__", pyo3_built::pyo3_built!(py, build))?;
 
     Ok(())
