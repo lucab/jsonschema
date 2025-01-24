@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.28.3] - 2025-01-24
+
 ### Fixed
 
 - Panic when schema registry base URI contains an unencoded fragment.
@@ -618,7 +620,8 @@
 ## 0.1.0 - 2020-06-09
 - Initial public release
 
-[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/python-v0.28.2...HEAD
+[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/python-v0.28.3...HEAD
+[0.28.3]: https://github.com/Stranger6667/jsonschema/compare/python-v0.28.2...python-v0.28.3
 [0.28.2]: https://github.com/Stranger6667/jsonschema/compare/python-v0.28.1...python-v0.28.2
 [0.28.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.28.0...python-v0.28.1
 [0.28.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.27.1...python-v0.28.0
