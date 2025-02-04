@@ -15,11 +15,11 @@ use crate::{
 };
 use ahash::{AHashMap, AHashSet};
 use referencing::{
-    uri, Draft, List, Registry, Resolved, Resolver, Resource, ResourceRef, Uri, Vocabulary,
-    VocabularySet, SPECIFICATIONS,
+    Draft, List, Registry, Resolved, Resolver, Resource, ResourceRef, Uri, Vocabulary,
+    VocabularySet,
 };
 use serde_json::Value;
-use std::{cell::RefCell, rc::Rc, sync::Arc};
+use std::{borrow::Cow, cell::RefCell, iter::once, rc::Rc, sync::Arc};
 
 const DEFAULT_SCHEME: &str = "json-schema";
 pub(crate) const DEFAULT_ROOT_URL: &str = "json-schema:///";
@@ -69,7 +69,7 @@ impl<'a> Context<'a> {
     /// Create a context for this schema.
     pub(crate) fn in_subresource(
         &'a self,
-        resource: ResourceRef,
+        resource: ResourceRef<'_>,
     ) -> Result<Context<'a>, referencing::Error> {
         let resolver = self.resolver.in_subresource(resource)?;
         Ok(Context {
@@ -217,10 +217,10 @@ impl<'a> Context<'a> {
             return Ok(None);
         };
         let resource = self.draft().create_resource(resolved.contents().clone());
-        let mut base_uri = resolved.resolver().base_uri().to_owned();
+        let mut base_uri = resolved.resolver().base_uri();
         let scopes = resolved.resolver().dynamic_scope();
         if let Some(id) = resource.id() {
-            base_uri = Arc::new(uri::resolve_against(&base_uri.borrow(), id)?);
+            base_uri = self.registry.resolve_against(&base_uri.borrow(), id)?;
         };
         Ok(Some((base_uri, scopes, resource)))
     }
@@ -249,26 +249,24 @@ pub(crate) fn build_validator(
     let draft = config.draft_for(schema)?;
     let resource_ref = draft.create_resource_ref(schema);
     let resource = draft.create_resource(schema.clone());
-    let base_uri = resource.id().unwrap_or(DEFAULT_ROOT_URL).to_string();
-
-    // Prepare additional resources to use in resolving
-    let mut resources = Vec::with_capacity(1 + config.resources.len());
-    resources.push((base_uri.clone(), resource));
-    for (uri, resource) in config.resources.drain() {
-        resources.push((uri, resource));
-    }
-
-    // Get retriever for external resources
-    let retriever = Arc::clone(&config.retriever);
+    let base_uri = resource_ref.id().unwrap_or(DEFAULT_ROOT_URL);
 
     // Build a registry & resolver needed for validator compilation
-    let registry = Arc::new(SPECIFICATIONS.clone().try_with_resources_and_retriever(
-        resources.into_iter(),
-        &*retriever,
-        draft,
-    )?);
+    let registry = Arc::new(
+        Registry::options()
+            .draft(draft)
+            .retriever(Arc::clone(&config.retriever))
+            .try_from_resources(
+                once((Cow::Borrowed(base_uri), resource)).chain(
+                    config
+                        .resources
+                        .drain()
+                        .map(|(uri, resource)| (Cow::Owned(uri), resource)),
+                ),
+            )?,
+    );
     let vocabularies = registry.find_vocabularies(draft, schema);
-    let resolver = Rc::new(registry.try_resolver(&base_uri)?);
+    let resolver = Rc::new(registry.try_resolver(base_uri)?);
 
     let config = Arc::new(config);
     let ctx = Context::new(

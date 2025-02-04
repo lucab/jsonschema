@@ -1,8 +1,8 @@
 use std::{
-    collections::VecDeque,
-    fmt::Debug,
+    collections::{hash_map::Entry, HashSet, VecDeque},
     hash::{Hash, Hasher},
-    sync::{Arc, RwLock},
+    pin::Pin,
+    sync::Arc,
 };
 
 use ahash::{AHashMap, AHashSet, AHasher};
@@ -12,16 +12,22 @@ use serde_json::Value;
 
 use crate::{
     anchors::{AnchorKey, AnchorKeyRef},
+    cache::{SharedUriCache, UriCache},
+    hasher::BuildNoHashHasher,
     list::List,
     meta,
-    resource::unescape_segment,
+    resource::{unescape_segment, InnerResourcePtr, JsonSchemaResource},
     uri,
     vocabularies::{self, VocabularySet},
     Anchor, DefaultRetriever, Draft, Error, Resolver, Resource, Retrieve,
 };
 
-type ResourceMap = AHashMap<Uri<String>, Arc<Resource>>;
+// SAFETY: `Pin` guarantees stable memory locations for resource pointers,
+// while `Arc` enables cheap sharing between multiple registries
+type DocumentStore = AHashMap<Arc<Uri<String>>, Pin<Arc<Value>>>;
+type ResourceMap = AHashMap<Arc<Uri<String>>, InnerResourcePtr>;
 
+/// Pre-loaded registry containing all JSON Schema meta-schemas and their vocabularies
 pub static SPECIFICATIONS: Lazy<Registry> = Lazy::new(|| {
     let pairs = meta::META_SCHEMAS.into_iter().map(|(uri, schema)| {
         (
@@ -29,21 +35,25 @@ pub static SPECIFICATIONS: Lazy<Registry> = Lazy::new(|| {
             Resource::from_contents(schema.clone()).expect("Invalid resource"),
         )
     });
+
     // The capacity is known upfront
+    let mut documents = DocumentStore::with_capacity(18);
     let mut resources = ResourceMap::with_capacity(18);
     let mut anchors = AHashMap::with_capacity(8);
-    process_resources(
+    let mut resolution_cache = UriCache::with_capacity(35);
+    process_meta_schemas(
         pairs,
-        &DefaultRetriever,
+        &mut documents,
         &mut resources,
         &mut anchors,
-        Draft::default(),
+        &mut resolution_cache,
     )
     .expect("Failed to process meta schemas");
     Registry {
+        documents,
         resources,
         anchors,
-        resolving_cache: RwLock::new(AHashMap::new()),
+        resolution_cache: resolution_cache.into_shared(),
     }
 });
 
@@ -55,24 +65,27 @@ pub static SPECIFICATIONS: Lazy<Registry> = Lazy::new(|| {
 /// discoverable and retrievable via their own IDs.
 #[derive(Debug)]
 pub struct Registry {
-    resources: ResourceMap,
+    // Pinned storage for primary documents
+    documents: DocumentStore,
+    pub(crate) resources: ResourceMap,
     anchors: AHashMap<AnchorKey, Anchor>,
-    resolving_cache: RwLock<AHashMap<u64, Arc<Uri<String>>>>,
+    resolution_cache: SharedUriCache,
 }
 
 impl Clone for Registry {
     fn clone(&self) -> Self {
         Self {
+            documents: self.documents.clone(),
             resources: self.resources.clone(),
             anchors: self.anchors.clone(),
-            resolving_cache: RwLock::new(AHashMap::new()),
+            resolution_cache: self.resolution_cache.clone(),
         }
     }
 }
 
 /// Configuration options for creating a [`Registry`].
 pub struct RegistryOptions {
-    retriever: Box<dyn Retrieve>,
+    retriever: Arc<dyn Retrieve>,
     draft: Draft,
 }
 
@@ -81,13 +94,13 @@ impl RegistryOptions {
     #[must_use]
     pub fn new() -> Self {
         Self {
-            retriever: Box::new(DefaultRetriever),
+            retriever: Arc::new(DefaultRetriever),
             draft: Draft::default(),
         }
     }
     /// Set a custom retriever for the [`Registry`].
     #[must_use]
-    pub fn retriever(mut self, retriever: Box<dyn Retrieve>) -> Self {
+    pub fn retriever(mut self, retriever: Arc<dyn Retrieve>) -> Self {
         self.retriever = retriever;
         self
     }
@@ -102,7 +115,7 @@ impl RegistryOptions {
     /// # Errors
     ///
     /// Returns an error if the URI is invalid or if there's an issue processing the resource.
-    pub fn try_new(self, uri: impl Into<String>, resource: Resource) -> Result<Registry, Error> {
+    pub fn try_new(self, uri: impl AsRef<str>, resource: Resource) -> Result<Registry, Error> {
         Registry::try_new_impl(uri, resource, &*self.retriever, self.draft)
     }
     /// Create a [`Registry`] from multiple resources using these options.
@@ -112,7 +125,7 @@ impl RegistryOptions {
     /// Returns an error if any URI is invalid or if there's an issue processing the resources.
     pub fn try_from_resources(
         self,
-        pairs: impl Iterator<Item = (impl Into<String>, Resource)>,
+        pairs: impl Iterator<Item = (impl AsRef<str>, Resource)>,
     ) -> Result<Registry, Error> {
         Registry::try_from_resources_impl(pairs, &*self.retriever, self.draft)
     }
@@ -140,7 +153,7 @@ impl Registry {
     /// # Errors
     ///
     /// Returns an error if the URI is invalid or if there's an issue processing the resource.
-    pub fn try_new(uri: impl Into<String>, resource: Resource) -> Result<Self, Error> {
+    pub fn try_new(uri: impl AsRef<str>, resource: Resource) -> Result<Self, Error> {
         Self::try_new_impl(uri, resource, &DefaultRetriever, Draft::default())
     }
     /// Create a new [`Registry`] from an iterator of (URI, Resource) pairs.
@@ -153,12 +166,12 @@ impl Registry {
     ///
     /// Returns an error if any URI is invalid or if there's an issue processing the resources.
     pub fn try_from_resources(
-        pairs: impl Iterator<Item = (impl Into<String>, Resource)>,
+        pairs: impl Iterator<Item = (impl AsRef<str>, Resource)>,
     ) -> Result<Self, Error> {
         Self::try_from_resources_impl(pairs, &DefaultRetriever, Draft::default())
     }
     fn try_new_impl(
-        uri: impl Into<String>,
+        uri: impl AsRef<str>,
         resource: Resource,
         retriever: &dyn Retrieve,
         draft: Draft,
@@ -166,17 +179,28 @@ impl Registry {
         Self::try_from_resources_impl([(uri, resource)].into_iter(), retriever, draft)
     }
     fn try_from_resources_impl(
-        pairs: impl Iterator<Item = (impl Into<String>, Resource)>,
+        pairs: impl Iterator<Item = (impl AsRef<str>, Resource)>,
         retriever: &dyn Retrieve,
         draft: Draft,
     ) -> Result<Self, Error> {
+        let mut documents = AHashMap::new();
         let mut resources = ResourceMap::new();
         let mut anchors = AHashMap::new();
-        process_resources(pairs, retriever, &mut resources, &mut anchors, draft)?;
+        let mut resolution_cache = UriCache::new();
+        process_resources(
+            pairs,
+            retriever,
+            &mut documents,
+            &mut resources,
+            &mut anchors,
+            &mut resolution_cache,
+            draft,
+        )?;
         Ok(Registry {
+            documents,
             resources,
             anchors,
-            resolving_cache: RwLock::new(AHashMap::new()),
+            resolution_cache: resolution_cache.into_shared(),
         })
     }
     /// Create a new registry with a new resource.
@@ -186,7 +210,7 @@ impl Registry {
     /// Returns an error if the URI is invalid or if there's an issue processing the resource.
     pub fn try_with_resource(
         self,
-        uri: impl Into<String>,
+        uri: impl AsRef<str>,
         resource: Resource,
     ) -> Result<Registry, Error> {
         let draft = resource.draft();
@@ -199,7 +223,7 @@ impl Registry {
     /// Returns an error if the URI is invalid or if there's an issue processing the resource.
     pub fn try_with_resource_and_retriever(
         self,
-        uri: impl Into<String>,
+        uri: impl AsRef<str>,
         resource: Resource,
         retriever: &dyn Retrieve,
     ) -> Result<Registry, Error> {
@@ -213,7 +237,7 @@ impl Registry {
     /// Returns an error if any URI is invalid or if there's an issue processing the resources.
     pub fn try_with_resources(
         self,
-        pairs: impl Iterator<Item = (impl Into<String>, Resource)>,
+        pairs: impl Iterator<Item = (impl AsRef<str>, Resource)>,
         draft: Draft,
     ) -> Result<Registry, Error> {
         self.try_with_resources_and_retriever(pairs, &DefaultRetriever, draft)
@@ -225,17 +249,28 @@ impl Registry {
     /// Returns an error if any URI is invalid or if there's an issue processing the resources.
     pub fn try_with_resources_and_retriever(
         self,
-        pairs: impl Iterator<Item = (impl Into<String>, Resource)>,
+        pairs: impl Iterator<Item = (impl AsRef<str>, Resource)>,
         retriever: &dyn Retrieve,
         draft: Draft,
     ) -> Result<Registry, Error> {
+        let mut documents = self.documents;
         let mut resources = self.resources;
         let mut anchors = self.anchors;
-        process_resources(pairs, retriever, &mut resources, &mut anchors, draft)?;
+        let mut resolution_cache = self.resolution_cache.into_local();
+        process_resources(
+            pairs,
+            retriever,
+            &mut documents,
+            &mut resources,
+            &mut anchors,
+            &mut resolution_cache,
+            draft,
+        )?;
         Ok(Registry {
+            documents,
             resources,
             anchors,
-            resolving_cache: RwLock::new(AHashMap::new()),
+            resolution_cache: resolution_cache.into_shared(),
         })
     }
     /// Create a new [`Resolver`] for this registry with the given base URI.
@@ -260,17 +295,6 @@ impl Registry {
     ) -> Resolver {
         Resolver::from_parts(self, base_uri, scopes)
     }
-    pub(crate) fn get_or_retrieve<'r>(&'r self, uri: &Uri<String>) -> Result<&'r Resource, Error> {
-        if let Some(resource) = self.resources.get(uri) {
-            Ok(resource)
-        } else {
-            Err(Error::unretrievable(
-                uri.as_str(),
-                "Retrieving external resources is not supported once the registry is populated"
-                    .into(),
-            ))
-        }
-    }
     pub(crate) fn anchor<'a>(&self, uri: &'a Uri<String>, name: &'a str) -> Result<&Anchor, Error> {
         let key = AnchorKeyRef::new(uri, name);
         if let Some(value) = self.anchors.get(key.borrow_dyn()) {
@@ -290,34 +314,15 @@ impl Registry {
             Err(Error::no_such_anchor(name.to_string()))
         }
     }
-
-    pub(crate) fn cached_resolve_against(
-        &self,
-        base: &Uri<&str>,
-        uri: &str,
-    ) -> Result<Arc<Uri<String>>, Error> {
-        let mut hasher = AHasher::default();
-        (base.as_str(), uri).hash(&mut hasher);
-        let hash = hasher.finish();
-
-        let value = self
-            .resolving_cache
-            .read()
-            .expect("Lock is poisoned")
-            .get(&hash)
-            .cloned();
-
-        if let Some(cached) = value {
-            Ok(cached)
-        } else {
-            let new = Arc::new(uri::resolve_against(base, uri)?);
-            self.resolving_cache
-                .write()
-                .expect("Lock is poisoned")
-                .insert(hash, new.clone());
-            Ok(new)
-        }
+    /// Resolves a reference URI against a base URI using registry's cache.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if base has not schema or there is a fragment.
+    pub fn resolve_against(&self, base: &Uri<&str>, uri: &str) -> Result<Arc<Uri<String>>, Error> {
+        self.resolution_cache.resolve_against(base, uri)
     }
+    /// Returns vocabulary set configured for given draft and contents.
     #[must_use]
     pub fn find_vocabularies(&self, draft: Draft, contents: &Value) -> VocabularySet {
         match draft.detect(contents) {
@@ -338,24 +343,92 @@ impl Registry {
     }
 }
 
-fn process_resources(
-    pairs: impl Iterator<Item = (impl Into<String>, Resource)>,
-    retriever: &dyn Retrieve,
+fn process_meta_schemas(
+    pairs: impl Iterator<Item = (impl AsRef<str>, Resource)>,
+    documents: &mut DocumentStore,
     resources: &mut ResourceMap,
     anchors: &mut AHashMap<AnchorKey, Anchor>,
+    resolution_cache: &mut UriCache,
+) -> Result<(), Error> {
+    let mut queue = VecDeque::with_capacity(32);
+
+    for (uri, resource) in pairs {
+        let uri = uri::from_str(uri.as_ref().trim_end_matches('#'))?;
+        let key = Arc::new(uri);
+        let (draft, contents) = resource.into_inner();
+        let boxed = Arc::pin(contents);
+        let contents = std::ptr::addr_of!(*boxed);
+        let resource = InnerResourcePtr::new(contents, draft);
+        documents.insert(Arc::clone(&key), boxed);
+        resources.insert(Arc::clone(&key), resource.clone());
+        queue.push_back((key, resource));
+    }
+
+    // Process current queue and collect references to external resources
+    while let Some((mut base, resource)) = queue.pop_front() {
+        if let Some(id) = resource.id() {
+            base = resolution_cache.resolve_against(&base.borrow(), id)?;
+        }
+
+        // Look for anchors
+        for anchor in resource.anchors() {
+            anchors.insert(AnchorKey::new(base.clone(), anchor.name()), anchor);
+        }
+
+        // Process subresources
+        for subresource in resource.subresources() {
+            let subresource = subresource?;
+            queue.push_back((base.clone(), subresource));
+        }
+        if resource.id().is_some() {
+            resources.insert(base, resource.clone());
+        }
+    }
+    Ok(())
+}
+
+fn process_resources(
+    pairs: impl Iterator<Item = (impl AsRef<str>, Resource)>,
+    retriever: &dyn Retrieve,
+    documents: &mut DocumentStore,
+    resources: &mut ResourceMap,
+    anchors: &mut AHashMap<AnchorKey, Anchor>,
+    resolution_cache: &mut UriCache,
     default_draft: Draft,
 ) -> Result<(), Error> {
     let mut queue = VecDeque::with_capacity(32);
-    let mut seen = AHashSet::new();
+    let mut seen = HashSet::with_hasher(BuildNoHashHasher::default());
     let mut external = AHashSet::new();
     let mut scratch = String::new();
+    let mut refers_metaschemas = false;
 
-    // Populate the resources & queue from the input
-    for (uri, resource) in pairs {
-        let uri = uri::from_str(uri.into().trim_end_matches('#'))?;
-        let resource = Arc::new(resource);
-        resources.insert(uri.clone(), Arc::clone(&resource));
-        queue.push_back((uri, resource));
+    // SAFETY: Deduplicate input URIs keeping the last occurrence to prevent creation
+    // of resources pointing to values that could be dropped by later insertions
+    let mut input_pairs: Vec<(Uri<String>, Resource)> = pairs
+        .map(|(uri, resource)| Ok((uri::from_str(uri.as_ref().trim_end_matches('#'))?, resource)))
+        .collect::<Result<Vec<_>, Error>>()?
+        .into_iter()
+        .rev()
+        .collect();
+    input_pairs.dedup_by(|(lhs, _), (rhs, _)| lhs == rhs);
+
+    for (uri, resource) in input_pairs {
+        let key = Arc::new(uri);
+        match documents.entry(Arc::clone(&key)) {
+            Entry::Occupied(_) => {
+                // SAFETY: Do not remove any existing documents so that all pointers are valid
+                // The registry does not allow overriding existing resources right now
+            }
+            Entry::Vacant(entry) => {
+                let (draft, contents) = resource.into_inner();
+                let boxed = Arc::pin(contents);
+                let contents = std::ptr::addr_of!(*boxed);
+                let resource = InnerResourcePtr::new(contents, draft);
+                resources.insert(Arc::clone(&key), resource.clone());
+                queue.push_back((key, resource));
+                entry.insert(boxed);
+            }
+        }
     }
 
     loop {
@@ -366,15 +439,12 @@ fn process_resources(
         // Process current queue and collect references to external resources
         while let Some((mut base, resource)) = queue.pop_front() {
             if let Some(id) = resource.id() {
-                base = uri::resolve_against(&base.borrow(), id)?;
+                base = resolution_cache.resolve_against(&base.borrow(), id)?;
             }
 
             // Look for anchors
             for anchor in resource.anchors() {
-                anchors.insert(
-                    AnchorKey::new(base.clone(), anchor.name().to_string()),
-                    anchor,
-                );
+                anchors.insert(AnchorKey::new(base.clone(), anchor.name()), anchor);
             }
 
             // Collect references to external resources in this resource
@@ -383,21 +453,24 @@ fn process_resources(
                 resource.contents(),
                 &mut external,
                 &mut seen,
+                resolution_cache,
                 &mut scratch,
+                &mut refers_metaschemas,
             )?;
 
             // Process subresources
             for subresource in resource.subresources() {
-                let subresource = Arc::new(subresource?);
-                // Collect references to external resources at this level
+                let subresource = subresource?;
                 if let Some(sub_id) = subresource.id() {
-                    let base = uri::resolve_against(&base.borrow(), sub_id)?;
+                    let base = resolution_cache.resolve_against(&base.borrow(), sub_id)?;
                     collect_external_resources(
                         &base,
                         subresource.contents(),
                         &mut external,
                         &mut seen,
+                        resolution_cache,
                         &mut scratch,
+                        &mut refers_metaschemas,
                     )?;
                 } else {
                     collect_external_resources(
@@ -405,13 +478,16 @@ fn process_resources(
                         subresource.contents(),
                         &mut external,
                         &mut seen,
+                        resolution_cache,
                         &mut scratch,
+                        &mut refers_metaschemas,
                     )?;
                 };
+
                 queue.push_back((base.clone(), subresource));
             }
             if resource.id().is_some() {
-                resources.insert(base, resource);
+                resources.insert(base, resource.clone());
             }
         }
         // Retrieve external resources
@@ -422,27 +498,38 @@ fn process_resources(
                 let retrieved = retriever
                     .retrieve(&fragmentless.borrow())
                     .map_err(|err| Error::unretrievable(fragmentless.as_str(), err))?;
-                let resource = Arc::new(Resource::from_contents_and_specification(
-                    retrieved,
-                    default_draft,
-                )?);
-                resources.insert(fragmentless.clone(), Arc::clone(&resource));
+
+                let draft = default_draft.detect(&retrieved)?;
+                let boxed = Arc::pin(retrieved);
+                let contents = std::ptr::addr_of!(*boxed);
+                let resource = InnerResourcePtr::new(contents, draft);
+                let key = Arc::new(fragmentless);
+                documents.insert(Arc::clone(&key), boxed);
+                resources.insert(Arc::clone(&key), resource.clone());
+
                 if let Some(fragment) = uri.fragment() {
                     // The original `$ref` could have a fragment that points to a place that won't
                     // be discovered via the regular sub-resources discovery. Therefore we need to
                     // explicitly check it
                     if let Some(resolved) = pointer(resource.contents(), fragment.as_str()) {
-                        queue.push_back((
-                            uri,
-                            Arc::new(Resource::from_contents_and_specification(
-                                resolved.clone(),
-                                default_draft,
-                            )?),
-                        ));
+                        let draft = default_draft.detect(resolved)?;
+                        let contents = std::ptr::addr_of!(*resolved);
+                        let resource = InnerResourcePtr::new(contents, draft);
+                        queue.push_back((Arc::clone(&key), resource));
                     }
                 }
-                queue.push_back((fragmentless, resource));
+
+                queue.push_back((key, resource));
             }
+        }
+    }
+
+    if refers_metaschemas {
+        for (key, resource) in &SPECIFICATIONS.resources {
+            resources.insert(Arc::clone(key), resource.clone());
+        }
+        for (key, anchor) in &SPECIFICATIONS.anchors {
+            anchors.insert(key.clone(), anchor.clone());
         }
     }
 
@@ -453,8 +540,10 @@ fn collect_external_resources(
     base: &Uri<String>,
     contents: &Value,
     collected: &mut AHashSet<Uri<String>>,
-    seen: &mut AHashSet<u64>,
+    seen: &mut HashSet<u64, BuildNoHashHasher>,
+    resolution_cache: &mut UriCache,
     scratch: &mut String,
+    refers_metaschemas: &mut bool,
 ) -> Result<(), Error> {
     // URN schemes are not supported for external resolution
     if base.scheme().as_str() == "urn" {
@@ -468,7 +557,10 @@ fn collect_external_resources(
                 || reference.starts_with("http://json-schema.org/draft-07/")
                 || reference.starts_with("http://json-schema.org/draft-06/")
                 || reference.starts_with("http://json-schema.org/draft-04/")
+                || base.as_str() == "https://json-schema.org/draft/2020-12/schema"
+                || base.as_str() == "https://json-schema.org/draft/2019-09/schema"
             {
+                *refers_metaschemas = true;
                 continue;
             }
 
@@ -487,7 +579,15 @@ fn collect_external_resources(
             // Handle local references separately as they may have nested references to external resources
             if reference.starts_with('#') {
                 if let Some(referenced) = pointer(contents, reference.trim_start_matches('#')) {
-                    collect_external_resources(base, referenced, collected, seen, scratch)?;
+                    collect_external_resources(
+                        base,
+                        referenced,
+                        collected,
+                        seen,
+                        resolution_cache,
+                        scratch,
+                        refers_metaschemas,
+                    )?;
                 }
                 continue;
             }
@@ -501,7 +601,9 @@ fn collect_external_resources(
                     None => (reference, None),
                 };
 
-                let mut resolved = uri::resolve_against(&base_without_fragment.borrow(), path)?;
+                let mut resolved = (*resolution_cache
+                    .resolve_against(&base_without_fragment.borrow(), path)?)
+                .clone();
                 // Add the fragment back if present
                 if let Some(fragment) = fragment {
                     // It is cheaper to check if it is properly encoded than allocate given that
@@ -517,7 +619,7 @@ fn collect_external_resources(
                 }
                 resolved
             } else {
-                uri::resolve_against(&base.borrow(), reference)?
+                (*resolution_cache.resolve_against(&base.borrow(), reference)?).clone()
             };
 
             collected.insert(resolved);
@@ -551,9 +653,10 @@ fn parse_index(s: &str) -> Option<usize> {
     }
     s.parse().ok()
 }
+
 #[cfg(test)]
 mod tests {
-    use std::error::Error as _;
+    use std::{error::Error as _, sync::Arc};
 
     use ahash::AHashMap;
     use fluent_uri::Uri;
@@ -825,7 +928,7 @@ mod tests {
             });
 
         let registry = Registry::options()
-            .retriever(Box::new(retriever))
+            .retriever(Arc::new(retriever))
             .try_from_resources(input_pairs)
             .expect("Invalid resources");
         // Verify that all expected URIs are resolved and present in resources
