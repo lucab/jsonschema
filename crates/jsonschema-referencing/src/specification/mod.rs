@@ -1,4 +1,5 @@
 use serde_json::Value;
+use subresources::SubresourceIterator;
 
 mod draft201909;
 mod draft4;
@@ -70,20 +71,22 @@ impl Draft {
             Draft::Draft201909 | Draft::Draft202012 => ids::dollar_id(contents),
         }
     }
-    #[must_use]
-    pub fn subresources_of<'a>(
-        self,
-        contents: &'a Value,
-    ) -> Box<dyn Iterator<Item = &'a Value> + 'a> {
-        match self {
-            Draft::Draft4 => draft4::subresources_of(contents),
-            Draft::Draft6 => draft6::subresources_of(contents),
-            Draft::Draft7 => draft7::subresources_of(contents),
-            Draft::Draft201909 => draft201909::subresources_of(contents),
-            Draft::Draft202012 => subresources::subresources_of(contents),
+    pub fn subresources_of(self, contents: &Value) -> impl Iterator<Item = &Value> {
+        match contents.as_object() {
+            Some(schema) => {
+                let object_iter = match self {
+                    Draft::Draft4 => draft4::object_iter,
+                    Draft::Draft6 => draft6::object_iter,
+                    Draft::Draft7 => draft7::object_iter,
+                    Draft::Draft201909 => draft201909::object_iter,
+                    Draft::Draft202012 => subresources::object_iter,
+                };
+                SubresourceIterator::Object(schema.iter().flat_map(object_iter))
+            }
+            None => SubresourceIterator::Empty,
         }
     }
-    pub(crate) fn anchors<'a>(self, contents: &'a Value) -> Box<dyn Iterator<Item = Anchor> + 'a> {
+    pub(crate) fn anchors(self, contents: &Value) -> impl Iterator<Item = Anchor> {
         match self {
             Draft::Draft4 => anchors::legacy_anchor_in_id(self, contents),
             Draft::Draft6 | Draft::Draft7 => anchors::legacy_anchor_in_dollar_id(self, contents),

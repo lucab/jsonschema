@@ -2,35 +2,47 @@ use serde_json::Value;
 
 use crate::{resource::InnerResourcePtr, segments::Segment, Error, Resolver, Segments};
 
-use super::subresources::SubresourceIterator;
+use super::subresources::SubresourceIteratorInner;
 
-pub(crate) fn subresources_of(contents: &Value) -> SubresourceIterator<'_> {
-    match contents.as_object() {
-        Some(schema) => Box::new(schema.iter().flat_map(|(key, value)| match key.as_str() {
-            "additionalItems"
-            | "additionalProperties"
-            | "contains"
-            | "contentSchema"
-            | "else"
-            | "if"
-            | "not"
-            | "propertyNames"
-            | "then"
-            | "unevaluatedItems"
-            | "unevaluatedProperties" => {
-                Box::new(std::iter::once(value)) as SubresourceIterator<'_>
+pub(crate) fn object_iter<'a>(
+    (key, value): (&'a String, &'a Value),
+) -> SubresourceIteratorInner<'a> {
+    match key.as_str() {
+        // For these keys, yield the value once.
+        "additionalItems"
+        | "additionalProperties"
+        | "contains"
+        | "contentSchema"
+        | "else"
+        | "if"
+        | "not"
+        | "propertyNames"
+        | "then"
+        | "unevaluatedItems"
+        | "unevaluatedProperties" => SubresourceIteratorInner::Once(value),
+        // For these keys, if the value is an array, iterate over its items.
+        "allOf" | "anyOf" | "oneOf" => {
+            if let Some(arr) = value.as_array() {
+                SubresourceIteratorInner::Array(arr.iter())
+            } else {
+                SubresourceIteratorInner::Empty
             }
-            "allOf" | "anyOf" | "oneOf" => Box::new(value.as_array().into_iter().flatten()),
-            "$defs" | "definitions" | "dependentSchemas" | "patternProperties" | "properties" => {
-                Box::new(value.as_object().into_iter().flat_map(|o| o.values()))
+        }
+        // For these keys, if the value is an object, iterate over its values.
+        "$defs" | "definitions" | "dependentSchemas" | "patternProperties" | "properties" => {
+            if let Some(obj) = value.as_object() {
+                SubresourceIteratorInner::Object(obj.values())
+            } else {
+                SubresourceIteratorInner::Empty
             }
-            "items" => match value {
-                Value::Array(arr) => Box::new(arr.iter()) as SubresourceIterator<'_>,
-                _ => Box::new(std::iter::once(value)),
-            },
-            _ => Box::new(std::iter::empty()),
-        })),
-        None => Box::new(std::iter::empty()),
+        }
+        // For "items": if it's an array, iterate over its items; otherwise, yield the value once.
+        "items" => match value {
+            Value::Array(arr) => SubresourceIteratorInner::Array(arr.iter()),
+            _ => SubresourceIteratorInner::Once(value),
+        },
+        // For any other key, yield nothing.
+        _ => SubresourceIteratorInner::Empty,
     }
 }
 

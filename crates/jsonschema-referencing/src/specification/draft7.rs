@@ -2,39 +2,55 @@ use serde_json::Value;
 
 use crate::{resource::InnerResourcePtr, Error, Resolver, Segments};
 
-use super::subresources::{self, SubresourceIterator};
+use super::subresources::{self, SubresourceIteratorInner};
 
-pub(crate) fn subresources_of(contents: &Value) -> SubresourceIterator<'_> {
-    match contents.as_object() {
-        Some(schema) => Box::new(schema.iter().flat_map(|(key, value)| {
-            match key.as_str() {
-                "additionalItems"
-                | "additionalProperties"
-                | "contains"
-                | "else"
-                | "if"
-                | "not"
-                | "propertyNames"
-                | "then" => Box::new(std::iter::once(value)) as SubresourceIterator<'_>,
-                "allOf" | "anyOf" | "oneOf" => Box::new(value.as_array().into_iter().flatten()),
-                "definitions" | "patternProperties" | "properties" => {
-                    Box::new(value.as_object().into_iter().flat_map(|o| o.values()))
-                }
-                "items" => match value {
-                    Value::Array(arr) => Box::new(arr.iter()) as SubresourceIterator<'_>,
-                    _ => Box::new(std::iter::once(value)),
-                },
-                "dependencies" => Box::new(
-                    value
-                        .as_object()
-                        .into_iter()
-                        .flat_map(|o| o.values())
-                        .filter(|v| v.is_object()),
-                ),
-                _ => Box::new(std::iter::empty()),
+pub(crate) fn object_iter<'a>(
+    (key, value): (&'a String, &'a Value),
+) -> SubresourceIteratorInner<'a> {
+    match key.as_str() {
+        // For these keys, yield the value once.
+        "additionalItems"
+        | "additionalProperties"
+        | "contains"
+        | "else"
+        | "if"
+        | "not"
+        | "propertyNames"
+        | "then" => SubresourceIteratorInner::Once(value),
+        // For these keys, if the value is an array, iterate over its items.
+        "allOf" | "anyOf" | "oneOf" => {
+            if let Some(arr) = value.as_array() {
+                // In the old draft, flatten() was used.
+                // Here we simply iterate over the array.
+                SubresourceIteratorInner::Array(arr.iter())
+            } else {
+                SubresourceIteratorInner::Empty
             }
-        })),
-        None => Box::new(std::iter::empty()),
+        }
+        // For these keys, if the value is an object, iterate over its values.
+        "definitions" | "patternProperties" | "properties" => {
+            if let Some(obj) = value.as_object() {
+                // flat_map in the old draft: iterate over the object's values.
+                SubresourceIteratorInner::Object(obj.values())
+            } else {
+                SubresourceIteratorInner::Empty
+            }
+        }
+        // For "items": if it's an array, iterate over its items; otherwise, yield the value once.
+        "items" => match value {
+            Value::Array(arr) => SubresourceIteratorInner::Array(arr.iter()),
+            _ => SubresourceIteratorInner::Once(value),
+        },
+        // For "dependencies": if the value is an object, iterate over its values filtered to only those that are objects.
+        "dependencies" => {
+            if let Some(obj) = value.as_object() {
+                SubresourceIteratorInner::FilteredObject(obj.values())
+            } else {
+                SubresourceIteratorInner::Empty
+            }
+        }
+        // For any other key, yield nothing.
+        _ => SubresourceIteratorInner::Empty,
     }
 }
 

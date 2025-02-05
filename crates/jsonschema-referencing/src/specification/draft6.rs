@@ -2,36 +2,41 @@ use serde_json::Value;
 
 use crate::{resource::InnerResourcePtr, Error, Resolver, Segments};
 
-use super::subresources::{self, SubresourceIterator};
+use super::subresources::{self, SubresourceIteratorInner};
 
-pub(crate) fn subresources_of(contents: &Value) -> SubresourceIterator<'_> {
-    match contents.as_object() {
-        Some(schema) => Box::new(schema.iter().flat_map(|(key, value)| {
-            match key.as_str() {
-                "additionalItems"
-                | "additionalProperties"
-                | "contains"
-                | "not"
-                | "propertyNames" => Box::new(std::iter::once(value)) as SubresourceIterator<'_>,
-                "allOf" | "anyOf" | "oneOf" => Box::new(value.as_array().into_iter().flatten()),
-                "definitions" | "patternProperties" | "properties" => {
-                    Box::new(value.as_object().into_iter().flat_map(|o| o.values()))
-                }
-                "items" => match value {
-                    Value::Array(arr) => Box::new(arr.iter()) as SubresourceIterator<'_>,
-                    _ => Box::new(std::iter::once(value)),
-                },
-                "dependencies" => Box::new(
-                    value
-                        .as_object()
-                        .into_iter()
-                        .flat_map(|o| o.values())
-                        .filter(|v| v.is_object()),
-                ),
-                _ => Box::new(std::iter::empty()),
+pub(crate) fn object_iter<'a>(
+    (key, value): (&'a String, &'a Value),
+) -> SubresourceIteratorInner<'a> {
+    match key.as_str() {
+        "additionalItems" | "additionalProperties" | "contains" | "not" | "propertyNames" => {
+            SubresourceIteratorInner::Once(value)
+        }
+        "allOf" | "anyOf" | "oneOf" => {
+            if let Some(arr) = value.as_array() {
+                SubresourceIteratorInner::Array(arr.iter())
+            } else {
+                SubresourceIteratorInner::Empty
             }
-        })),
-        None => Box::new(std::iter::empty()),
+        }
+        "definitions" | "patternProperties" | "properties" => {
+            if let Some(obj) = value.as_object() {
+                SubresourceIteratorInner::Object(obj.values())
+            } else {
+                SubresourceIteratorInner::Empty
+            }
+        }
+        "items" => match value {
+            Value::Array(arr) => SubresourceIteratorInner::Array(arr.iter()),
+            _ => SubresourceIteratorInner::Once(value),
+        },
+        "dependencies" => {
+            if let Some(obj) = value.as_object() {
+                SubresourceIteratorInner::FilteredObject(obj.values())
+            } else {
+                SubresourceIteratorInner::Empty
+            }
+        }
+        _ => SubresourceIteratorInner::Empty,
     }
 }
 
