@@ -1,3 +1,4 @@
+use referencing::{Draft, Registry};
 use serde_json::Value;
 use std::fs;
 
@@ -29,6 +30,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let validator = jsonschema::validator_for(&schema)?;
 
+    let input_resources = vec![(
+        "http://example.com/schema",
+        Draft::Draft202012.create_resource(schema.clone()),
+    )];
+
     #[cfg(feature = "dhat-heap")]
     let _profiler = dhat::Profiler::new_heap();
     for _ in 0..args.iterations {
@@ -46,8 +52,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             "apply" => {
                 let _ = validator.apply(&instance).basic();
             }
+            "registry" => {
+                let _ = Registry::try_from_resources(input_resources.into_iter());
+                break;
+            }
             _ => panic!(
-                "Invalid method. Use 'build', 'is_valid', 'validate', 'iter_errors`, or 'apply'"
+                "Invalid method. Use 'registry', 'build', 'is_valid', 'validate', 'iter_errors`, or 'apply'"
             ),
         }
     }
