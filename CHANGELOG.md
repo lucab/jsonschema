@@ -32,6 +32,49 @@
   fn retrieve(&self, uri: &Uri<String>) -> Result<Value, Box<dyn std::error::Error + Send + Sync>>
   ```
 
+- Simplified `Registry` creation API:
+  - Removed `RegistryOptions::try_new` and `RegistryOptions::try_from_resources` in favor of `Registry::build`
+  - Removed `Registry::try_with_resource_and_retriever` - use `Registry::options().retriever()` instead
+  - Registry creation is now consistently done through the builder pattern
+
+  ```rust
+  // Before (0.28.x)
+  let registry = Registry::options()
+      .draft(Draft::Draft7)
+      .try_new(
+          "http://example.com/schema",
+          resource
+      )?;
+
+  let registry = Registry::options()
+      .draft(Draft::Draft7)
+      .try_from_resources([
+          ("http://example.com/schema", resource)
+      ].into_iter())?;
+    
+  let registry = Registry.try_with_resource_and_retriever(
+      "http://example.com/schema",
+      resource,
+      retriever
+  )?;
+
+  // After (0.29.0)
+  let registry = Registry::options()
+      .draft(Draft::Draft7)
+      .build([
+          ("http://example.com/schema", resource)
+      ])?;
+
+  let registry = Registry::options()
+      .draft(Draft::Draft7)
+      .build([
+          ("http://example.com/schema", resource)
+      ])?;
+
+  let registry = Registry::options()
+      .retriever(retriever)
+      .build(resources)?;
+
 ### Added
 
 - Support non-blocking retrieval for external resources during schema resolution via the new `resolve-async` feature. [#385](https://github.com/Stranger6667/jsonschema/issues/385)
