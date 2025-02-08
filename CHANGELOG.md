@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.29.0] - 2025-02-08
+
 ### Breaking Changes
 
 - All builder methods on `ValidationOptions` now take ownership of `self` instead of `&mut self`.
@@ -880,7 +882,8 @@ Old names are retained for backward compatibility but will be removed in a futur
 
 - Initial public release
 
-[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.28.3...HEAD
+[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.29.0...HEAD
+[0.29.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.28.3...rust-v0.29.0
 [0.28.3]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.28.2...rust-v0.28.3
 [0.28.2]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.28.1...rust-v0.28.2
 [0.28.1]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.28.0...rust-v0.28.1
