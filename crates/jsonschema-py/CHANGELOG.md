@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.29.1] - 2025-02-08
+
+### Packaging
+
+- Fix missing source distribution.
+
 ## [0.29.0] - 2025-02-08
 
 ### Added
@@ -630,7 +636,8 @@
 ## 0.1.0 - 2020-06-09
 - Initial public release
 
-[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/python-v0.29.0...HEAD
+[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/python-v0.29.1...HEAD
+[0.29.1]: https://github.com/Stranger6667/jsonschema/compare/python-v0.29.0...python-v0.29.1
 [0.29.0]: https://github.com/Stranger6667/jsonschema/compare/python-v0.28.3...python-v0.29.0
 [0.28.3]: https://github.com/Stranger6667/jsonschema/compare/python-v0.28.2...python-v0.28.3
 [0.28.2]: https://github.com/Stranger6667/jsonschema/compare/python-v0.28.1...python-v0.28.2
