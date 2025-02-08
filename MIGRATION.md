@@ -38,6 +38,47 @@ impl Retrieve for MyRetriever {
 
 This is a type-level change only; the behavior and available methods remain the same.
 
+The Registry API has been simplified to use a consistent builder pattern. Replace direct creation methods with `Registry::options()`:
+
+```rust
+// Before (0.28.x)
+let registry = Registry::options()
+    .draft(Draft::Draft7)
+    .try_new(
+        "http://example.com/schema",
+        resource
+    )?;
+
+let registry = Registry::options()
+    .draft(Draft::Draft7)
+    .try_from_resources([
+        ("http://example.com/schema", resource)
+    ].into_iter())?;
+    
+let registry = Registry.try_with_resource_and_retriever(
+    "http://example.com/schema",
+    resource,
+    retriever
+)?;
+
+// After (0.29.0)
+let registry = Registry::options()
+    .draft(Draft::Draft7)
+    .build([
+        ("http://example.com/schema", resource)
+    ])?;
+
+let registry = Registry::options()
+    .draft(Draft::Draft7)
+    .build([
+        ("http://example.com/schema", resource)
+    ])?;
+
+let registry = Registry::options()
+    .retriever(retriever)
+    .build(resources)?;
+```
+
 ## Upgrading from 0.25.x to 0.26.0
 
 The `Validator::validate` method now returns `Result<(), ValidationError<'i>>` instead of an error iterator. If you need to iterate over all validation errors, use the new `Validator::iter_errors` method.
