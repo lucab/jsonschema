@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.29.1] - 2025-03-27
+
 ### Added
 
 - `Hash`, `PartialOrd`, `Ord` and `serde::Serialize` for `Location`.
@@ -887,7 +889,8 @@ Old names are retained for backward compatibility but will be removed in a futur
 
 - Initial public release
 
-[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.29.0...HEAD
+[Unreleased]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.29.1...HEAD
+[0.29.1]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.29.0...rust-v0.29.1
 [0.29.0]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.28.3...rust-v0.29.0
 [0.28.3]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.28.2...rust-v0.28.3
 [0.28.2]: https://github.com/Stranger6667/jsonschema/compare/rust-v0.28.1...rust-v0.28.2
