@@ -180,7 +180,7 @@ impl Location {
     }
 }
 
-fn write_escaped_str(buffer: &mut String, value: &str) {
+pub fn write_escaped_str(buffer: &mut String, value: &str) {
     match value.find(['~', '/']) {
         Some(mut escape_idx) => {
             let mut remaining = value;
