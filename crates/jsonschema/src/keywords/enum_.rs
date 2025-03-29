@@ -1,7 +1,8 @@
 use crate::{
     compiler,
     error::ValidationError,
-    keywords::{helpers, CompilationResult},
+    ext::cmp,
+    keywords::CompilationResult,
     paths::{LazyLocation, Location},
     types::{JsonType, JsonTypeSet},
     validator::Validate,
@@ -60,7 +61,7 @@ impl Validate for EnumValidator {
         // is no reason to compare it against all items - we know that
         // there are no items with such type at all
         if self.types.contains_value_type(instance) {
-            self.items.iter().any(|item| helpers::equal(instance, item))
+            self.items.iter().any(|item| cmp::equal(instance, item))
         } else {
             false
         }
@@ -108,7 +109,7 @@ impl Validate for SingleValueEnumValidator {
     }
 
     fn is_valid(&self, instance: &Value) -> bool {
-        helpers::equal(&self.value, instance)
+        cmp::equal(&self.value, instance)
     }
 }
 

@@ -1,8 +1,5 @@
 use crate::{
-    compiler,
-    error::ValidationError,
-    keywords::{helpers, CompilationResult},
-    paths::Location,
+    compiler, error::ValidationError, ext::cmp, keywords::CompilationResult, paths::Location,
     validator::Validate,
 };
 use serde_json::{Map, Number, Value};
@@ -43,7 +40,7 @@ impl Validate for ConstArrayValidator {
     #[inline]
     fn is_valid(&self, instance: &Value) -> bool {
         if let Value::Array(instance_value) = instance {
-            helpers::equal_arrays(&self.value, instance_value)
+            cmp::equal_arrays(&self.value, instance_value)
         } else {
             false
         }
@@ -200,7 +197,7 @@ impl Validate for ConstObjectValidator {
     }
     fn is_valid(&self, instance: &Value) -> bool {
         if let Value::Object(item) = instance {
-            helpers::equal_objects(&self.value, item)
+            cmp::equal_objects(&self.value, item)
         } else {
             false
         }

@@ -1,8 +1,5 @@
 use crate::{
-    compiler,
-    error::ValidationError,
-    keywords::{helpers::equal, CompilationResult},
-    paths::Location,
+    compiler, error::ValidationError, ext::cmp, keywords::CompilationResult, paths::Location,
     validator::Validate,
 };
 use ahash::{AHashSet, AHasher};
@@ -17,7 +14,7 @@ pub(crate) struct HashedValue<'a>(&'a Value);
 
 impl PartialEq for HashedValue<'_> {
     fn eq(&self, other: &Self) -> bool {
-        equal(self.0, other.0)
+        cmp::equal(self.0, other.0)
     }
 }
 
@@ -72,9 +69,9 @@ pub(crate) fn is_unique(items: &[Value]) -> bool {
         // Empty arrays and one-element arrays always contain unique elements
         true
     } else if let [first, second] = items {
-        !equal(first, second)
+        !cmp::equal(first, second)
     } else if let [first, second, third] = items {
-        !equal(first, second) && !equal(first, third) && !equal(second, third)
+        !cmp::equal(first, second) && !cmp::equal(first, third) && !cmp::equal(second, third)
     } else if size <= ITEMS_SIZE_THRESHOLD {
         // If the array size is small enough we can compare all elements pairwise, which will
         // be faster than calculating hashes for each element, even if the algorithm is O(N^2)
@@ -82,7 +79,7 @@ pub(crate) fn is_unique(items: &[Value]) -> bool {
         while idx < items.len() {
             let mut inner_idx = idx + 1;
             while inner_idx < items.len() {
-                if equal(&items[idx], &items[inner_idx]) {
+                if cmp::equal(&items[idx], &items[inner_idx]) {
                     return false;
                 }
                 inner_idx += 1;
