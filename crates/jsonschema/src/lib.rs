@@ -68,6 +68,18 @@
 //! # }
 //! ```
 //!
+//! ### Note on `format` keyword
+//!
+//! By default, format validation is draft‑dependent. To opt in for format checks, you can configure your validator like this:
+//!
+//! ```rust
+//! let validator = jsonschema::draft202012::options()
+//!     .should_validate_formats(true)
+//!     .build(&schema)?;
+//! ```
+//!
+//! Once built, any `format` keywords in your schema will be actively validated according to the chosen draft.
+//!
 //! # Meta-Schema Validation
 //!
 //! The crate provides functionality to validate JSON Schema documents themselves against their meta-schemas.
@@ -604,8 +616,9 @@
 //! ### Notes on Custom Format Validators
 //!
 //! - Custom format validators are only called for string instances.
-//! - Format validation can be disabled globally or per-draft using [`ValidationOptions`].
-//!   Ensure format validation is enabled if you're using custom formats.
+//! - In newer drafts, `format` is purely an annotation and won’t do any checking unless you
+//!   opt in by calling `.should_validate_formats(true)` on your options builder. If you omit
+//!   it, all `format` keywords are ignored at validation time.
 //!
 //! # WebAssembly support
 //!
