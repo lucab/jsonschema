@@ -73,9 +73,15 @@
 //! By default, format validation is draft‑dependent. To opt in for format checks, you can configure your validator like this:
 //!
 //! ```rust
+//! # fn main() -> Result<(), Box<dyn std::error::Error>> {
+//! # use serde_json::json;
+//! #
+//! # let schema = json!({"type": "string"});
 //! let validator = jsonschema::draft202012::options()
 //!     .should_validate_formats(true)
 //!     .build(&schema)?;
+//! # Ok(())
+//! # }
 //! ```
 //!
 //! Once built, any `format` keywords in your schema will be actively validated according to the chosen draft.
