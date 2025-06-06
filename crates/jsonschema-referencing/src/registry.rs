@@ -45,7 +45,7 @@ type ResourceMap = AHashMap<Arc<Uri<String>>, InnerResourcePtr>;
 
 /// Pre-loaded registry containing all JSON Schema meta-schemas and their vocabularies
 pub static SPECIFICATIONS: Lazy<Registry> = Lazy::new(|| {
-    let pairs = meta::META_SCHEMAS.into_iter().map(|(uri, schema)| {
+    let pairs = meta::META_SCHEMAS_ALL.into_iter().map(|(uri, schema)| {
         (
             uri,
             ResourceRef::from_contents(schema).expect("Invalid resource"),
@@ -72,6 +72,40 @@ pub static SPECIFICATIONS: Lazy<Registry> = Lazy::new(|| {
         resolution_cache: resolution_cache.into_shared(),
     }
 });
+
+fn build_metas_registry(draft: Draft) -> Registry {
+    let draft_schemas = meta::metas_for_draft(draft);
+    let num_schemas = draft_schemas.len();
+
+    let pairs = draft_schemas.into_iter().map(|(uri, schema)| {
+        (
+            uri,
+            ResourceRef::from_contents(schema).expect("Invalid resource"),
+        )
+    });
+
+    let mut documents = DocumentStore::with_capacity(num_schemas);
+    let mut resources = ResourceMap::with_capacity(num_schemas);
+    // The actual number of anchors and cache-entries varies across
+    // draft. We overshoot here to avoid reallocations.
+    let mut anchors = AHashMap::with_capacity(num_schemas);
+    let mut resolution_cache = UriCache::with_capacity(num_schemas*2);
+
+    process_meta_schemas(
+        pairs,
+        &mut documents,
+        &mut resources,
+        &mut anchors,
+        &mut resolution_cache,
+    )
+    .expect("Failed to process meta schemas");
+    Registry {
+        documents,
+        resources,
+        anchors,
+        resolution_cache: resolution_cache.into_shared(),
+    }
+}
 
 /// A registry of JSON Schema resources, each identified by their canonical URIs.
 ///
@@ -706,15 +740,17 @@ fn handle_metaschemas(
     refers_metaschemas: bool,
     resources: &mut ResourceMap,
     anchors: &mut AHashMap<AnchorKey, Anchor>,
+    default_draft: Draft,
 ) {
     if refers_metaschemas {
-        resources.reserve(SPECIFICATIONS.resources.len());
-        for (key, resource) in &SPECIFICATIONS.resources {
-            resources.insert(Arc::clone(key), resource.clone());
+        let draft_registry = build_metas_registry(default_draft);
+        resources.reserve(draft_registry.resources.len());
+        for (key, resource) in draft_registry.resources.into_iter() {
+            resources.insert(key, resource.clone());
         }
-        anchors.reserve(SPECIFICATIONS.anchors.len());
-        for (key, anchor) in &SPECIFICATIONS.anchors {
-            anchors.insert(key.clone(), anchor.clone());
+        anchors.reserve(draft_registry.anchors.len());
+        for (key, anchor) in draft_registry.anchors.into_iter() {
+            anchors.insert(key, anchor);
         }
     }
 }
@@ -783,7 +819,7 @@ fn process_resources(
         }
     }
 
-    handle_metaschemas(state.refers_metaschemas, resources, anchors);
+    handle_metaschemas(state.refers_metaschemas, resources, anchors, default_draft);
 
     Ok(())
 }
@@ -860,7 +896,7 @@ async fn process_resources_async(
         }
     }
 
-    handle_metaschemas(state.refers_metaschemas, resources, anchors);
+    handle_metaschemas(state.refers_metaschemas, resources, anchors, default_draft);
 
     Ok(())
 }
