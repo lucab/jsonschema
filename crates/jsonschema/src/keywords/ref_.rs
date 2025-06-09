@@ -98,6 +98,12 @@ pub(crate) struct LazyRefValidator {
     inner: OnceCell<SchemaNode>,
 }
 
+impl Drop for LazyRefValidator {
+    fn drop(&mut self) {
+        self.inner.take();
+    }
+}
+
 impl LazyRefValidator {
     #[inline]
     pub(crate) fn compile<'a>(ctx: &compiler::Context) -> CompilationResult<'a> {
